@@ -1,0 +1,43 @@
+/*
+CSS DE PEDIDOS Y REPORTES
+*/
+
+#print_2{font-family:monospace; margin:0 auto; font-size:10px; width: 80mm; background-color:#fff; color:#000; padding:0; font-weight: bold;}
+#print_2 h1 {
+    font-size:1rem;
+    text-align: center;
+}
+.table_pedido{
+    border-collapse: collapse;
+    border:none;
+    margin:10px auto;
+    width: 78mm;
+}
+.table_pedido tr td{
+    padding:5px;
+    border: 1px solid black;
+}
+.table_head{
+    font-variant: small-caps;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+#_pdf{
+    padding:1rem;
+    margin:0 auto;
+    width: 100%;
+    max-width: 200mm;
+    color:#000;
+    background-color: #fff;
+    font-size: .75rem;
+}
+._pdf_head{
+    color:#fff;
+    background-color: #585858;
+}
+._pdf_detalles{
+    border: 1px solid #000;
+    padding: 1rem;
+    text-align: left;
+}

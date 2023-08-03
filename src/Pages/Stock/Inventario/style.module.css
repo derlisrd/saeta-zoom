@@ -1,0 +1,29 @@
+.table_stock{
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+.table_stock tr td {
+    padding: 0;
+    text-align: center;
+}
+.table_stock tr td:hover{
+    background-color: #e3e1e1;
+    color:#000;
+}
+.table_stock tr td p {
+    padding: 8px;
+    font-size: 0.8rem;
+    line-height: 0;
+    cursor: pointer;
+}
+
+.table_stock .head{
+    position: sticky;
+    z-index: 1100;
+    top: 63px;
+    background-color: black;
+    color:white;
+}
+.table_stock .head th{
+    border:1px solid black;
+}

@@ -1,0 +1,8 @@
+.lista{
+    text-align: center;
+    border-collapse: collapse;
+}
+.lista thead{
+    background-color: #000;
+}
+

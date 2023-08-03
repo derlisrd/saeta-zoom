@@ -1,0 +1,109 @@
+.print{
+    width: 230mm;
+    height: 310mm;
+    background-color: #fff;
+    margin:0 auto;
+    color:#000;
+    font-size: 11px;
+    font-weight: bold;
+}
+.print_container{
+    width: 200mm;
+    height: 87mm;
+    margin: 2mm 5mm 16mm 0mm;
+}
+.cabeza{
+    width: 100%;
+    height: 30mm;
+    border-bottom: 1px solid black;
+}
+.cuerpo{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.facturas{
+    margin:6mm 0 0 0mm;
+    width: 43mm;
+}
+.montos_facturas{
+    height: 53mm;
+}
+.total_numero_factura{
+    width: 42mm;
+    text-align: right;
+    font-size: 9px;
+    margin: 0;
+}
+.facturas_items{
+    display: flex;
+    flex-direction: row;
+    font-size: 9px;
+    text-align: center;
+    height: 4mm;
+}
+
+.factura_importe, .factura_nro{
+    margin-top: 3mm;
+    width: 21mm;
+}
+.datos{
+    width: 160mm;
+    margin-left: 13mm;
+}
+.fecha{
+    display: flex;
+    flex-direction: row;
+}
+.dia{
+    width: 20mm;
+    margin-left: 25mm;
+}
+.mes{
+    width: 25mm;
+    margin-left: 5mm;
+}
+.year{
+    width: 10mm;
+    margin-left: 10mm;
+}
+.monto{
+    margin-left: 40mm;
+    width: 20mm ;
+}
+.cliente, .ruc{
+    width: 100%;
+    margin-left: 15mm;
+    margin-bottom: 0;
+    font-size: 12px;
+    line-height: .7rem;
+}
+.pagos{
+    width: 100%;
+    margin-left: 50mm;
+    margin-top: 23mm;
+    font-size: 10px;
+}
+.efectivo, .transferencia, .cheque{
+    height: 8mm;
+}
+
+.cheque{
+    display: flex;
+    flex-direction: row;
+}
+.cheque_x, .efectivo_x,.transferencia_x{
+    margin-left: -27mm;
+    margin-right: 27mm;
+}
+.cheque_nro{
+    width: 45mm;
+}
+.banco{
+    width: 43mm;
+    text-align: center;
+}
+.cheque_total{
+    margin-left: 6mm;
+}

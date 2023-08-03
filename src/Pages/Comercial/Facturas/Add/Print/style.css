@@ -1,0 +1,75 @@
+.print_main{
+    color:black;
+    background-color: white;
+    width: 216mm;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+    padding-top: 14mm;
+}
+
+.tablas{
+    width: 195mm;
+    margin:0 auto;
+}
+.nro_factura{
+    height: 20mm;
+    font-size: 12px;
+    font-weight: bold;
+}
+.info_cliente{
+    font-size: 10px;
+    height: 14mm;
+    margin-top: 4mm;
+}
+.info_cliente p{
+    line-height: 2px;
+}
+.descripciones{
+    margin: 7mm 2mm 0 2mm;
+    text-align: center;
+    height: 38mm;
+    width: 100%;
+    vertical-align: top;
+}
+.items_descripciones{
+    display: flex;
+    flex-direction: row;
+    font-size: 8px;
+}
+.cod{
+    width: 15mm;
+}
+.cant{
+    width: 10mm;
+}
+.nombre_des{
+    width: 90mm;
+}
+.precio_uni{
+    width: 18mm;
+}
+.exenta{
+    width: 25mm;
+}
+.iva5{
+    width: 23mm;
+}
+.iva10{
+    width: 25mm;
+}
+
+
+
+.subtotales{
+    font-size: 9px;
+    text-align: center;
+}
+.liquidacion_iva{
+    font-size: 8px;
+    text-align: center;
+}
+.spacing_bottom{
+    width: 100%;
+    margin-bottom: 0mm;
+}

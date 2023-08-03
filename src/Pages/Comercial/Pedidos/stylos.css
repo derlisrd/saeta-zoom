@@ -1,0 +1,25 @@
+#print{
+    width: 80mm;
+    font-weight: bold; font-family:monospace; margin:0 auto; font-size:10px; padding:2px;
+    background-color:#fff; color:#000;
+}
+#print h1 {
+    font-size:1rem;
+    text-align: center;
+}
+.table_pedido{
+    border-collapse: collapse;
+    border:none;
+    margin:10px auto;
+    border: 1px solid black;
+    width: 78mm;
+}
+.table_pedido tr td{
+    padding:5px;
+    border:1px solid black;
+}
+.table_head{
+    font-variant: small-caps;
+    font-weight: bold;
+    border-radius: 8px;
+}
