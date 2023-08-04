@@ -57,10 +57,10 @@ function DialogPDF() {
             where =`cliente_id_pedido,=,${selectCliente.id_cliente},and,fecha_pedido,between,'${desde} 00:00:00',and,'${hasta} 23:59:59',and,estado_pedido,<>,0`
         }
         if(pago!==''){
-           where += `,and,tipo_pedido,=,${tipo}` 
+           where += `,and,tipo_pedido,=,${pago}` 
         }
         if(tipo!==''){
-           where += `,and,estado_pago,=,${pago}` 
+           where += `,and,estado_pago,=,${tipo}` 
         }
         let res = await APICALLER.get({table:'pedidos_items',include:'pedidos,productos,clientes',
         on:'pedido_id,id_pedido,id_producto,producto_id_item,id_cliente,cliente_id_pedido,codigo',
@@ -71,11 +71,19 @@ function DialogPDF() {
         {   let total_venta = 0;
             let lista_arreglada = []
             res.results.forEach(elm => {
-                total_venta += parseFloat(elm.precio_venta_item)*parseFloat(elm.cantidad_pedido)
-                lista_arreglada.push({...elm,
-                    precio_venta_item: parseFloat(elm.precio_venta_item),
-                    total_pedido: parseFloat(elm.precio_venta_item)*parseFloat(elm.cantidad_pedido)
-                })
+                if(elm.tipo_pedido==='1' || elm.tipo_pedido==='4'){
+                    total_venta += parseFloat(elm.precio_venta_item)*parseFloat(elm.cantidad_pedido)
+                    lista_arreglada.push({...elm,
+                        precio_venta_item: parseFloat(elm.precio_venta_item),
+                        total_pedido: parseFloat(elm.precio_venta_item)*parseFloat(elm.cantidad_pedido)
+                    })
+                }else{
+                    lista_arreglada.push({...elm,
+                        precio_venta_item: parseFloat(elm.precio_venta_item),
+                        total_pedido: parseFloat(elm.precio_venta_item)*parseFloat(elm.cantidad_pedido)
+                    })
+                }
+                
             });
             if(selectCliente)
             {
