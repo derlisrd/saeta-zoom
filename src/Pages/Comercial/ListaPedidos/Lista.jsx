@@ -38,6 +38,7 @@ function Lista() {
     const print = (r)=>{ setFormSelect(r); setDialogs({...dialogs,imprimir:true})}
     const cambioestado = (r)=>{ setFormSelect(r); setDialogs({...dialogs,cambio_estado:true})}
     const cancelar = (r)=> {setFormSelect(r); setDialogs({...dialogs,cancelar:true})}
+    const pago = (r)=> {setFormSelect(r); setDialogs({...dialogs,pago:true})}
     const navegar = ()=>{ navigate('/pedidos?open=nuevo') }
     const motivoCancela = (r)=>{
         swal({text:r.motivo_cancela, title:`Pedido ${r.id_pedido} - Motivo:`,icon:'info'})
@@ -53,6 +54,7 @@ function Lista() {
                 <ButtonTip id='3' onClick={()=>{editPedido(rowProps)}} icon='edit' title='Editar pedido' />
                 <ButtonTip id='4' onClick={()=>{cancelar(rowProps)}} icon='cancel' title='Cancelar pedido' />
                 <ButtonTip id='5' title='Cambio de estado' onClick={()=>{cambioestado(rowProps)}} icon='display_settings' />
+                <ButtonTip id='59' title='Cambiar Pago' onClick={()=>{pago(rowProps)}} icon='account_balance_wallet' />
                 </> 
             }
             <ButtonTip id='2' title='Imprimir pedido' onClick={()=>{print(rowProps)}} icon='print' />

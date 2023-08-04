@@ -1,4 +1,4 @@
-import { Autocomplete, Button, Checkbox, Dialog, DialogActions, DialogContent,DialogTitle,FormControlLabel,Grid,Icon, IconButton, LinearProgress, Stack, TextField } from "@mui/material";
+import { Autocomplete, Button, Checkbox, Dialog, DialogActions, DialogContent,DialogTitle,FormControl,FormControlLabel,Grid,Icon, IconButton, InputLabel, LinearProgress, MenuItem, Select, Stack, TextField } from "@mui/material";
 import { useListaPedidos } from "./ListaPedidosProvider";
 import { useEffect,useState,useRef} from "react";
 import { APICALLER } from "../../../Services/api";
@@ -15,6 +15,7 @@ function DialogPDF() {
     const [error,setError]=useState({code:0})
     const [desde,setDesde] = useState('')
     const [hasta,setHasta]= useState('')
+    const [pago,setPago] = useState('');
     const [selectCliente,setSelectCliente]=useState(null)
     const [search,setSearch]= useState('')
     const [detalles,setDetalles] = useState({total:0,cliente:'',fecha_inicio:'',fecha_fin:''})
@@ -28,6 +29,7 @@ function DialogPDF() {
         setSelectCliente(null)
         setDetalles({total:0,cliente:'',fecha_inicio:'',fecha_fin:''})
         setSearch('')
+        setPago('')
     }
     const insertarCliente = (e,value)=>{
         setSelectCliente(value)
@@ -52,9 +54,12 @@ function DialogPDF() {
         if(!todos){
             where =`cliente_id_pedido,=,${selectCliente.id_cliente},and,fecha_pedido,between,'${desde} 00:00:00',and,'${hasta} 23:59:59',and,estado_pedido,<>,0`
         }
+        if(pago!==''){
+           where += `,and,estado_pago,=,${pago}` 
+        }
         let res = await APICALLER.get({table:'pedidos_items',include:'pedidos,productos,clientes',
         on:'pedido_id,id_pedido,id_producto,producto_id_item,id_cliente,cliente_id_pedido,codigo',
-        fields:'precio_venta_item,id_pedido,cantidad_pedido,fecha_pedido,codigo_producto,nombre_producto,id_cliente,nombre_cliente,codigo_cliente_pedido',
+        fields:'precio_venta_item,id_pedido,cantidad_pedido,fecha_pedido,codigo_producto,nombre_producto,id_cliente,nombre_cliente,codigo_cliente_pedido,estado_pago',
         where
         })
         if(res.response)
@@ -156,15 +161,17 @@ function DialogPDF() {
                     </Grid>
                     <Grid item xs={12} sm={2}>
                     <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                        <InputLabel sx={{ lineHeight:'0.8rem' }}>Pago</InputLabel>
                         <Select
-                            value={age}
-                            label="Age"
-                            onChange={handleChange}
+                            size="small"
+                            defaultValue=""
+                            value={pago}
+                            label="Pago"
+                            onChange={(e)=>{ setPago(e.target.value)}}
                         >
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
+                            <MenuItem value=''>Todos</MenuItem>
+                            <MenuItem value='0'>Pendiente</MenuItem>
+                            <MenuItem value='1'>Pagado</MenuItem>
                         </Select>
                     </FormControl>
                     </Grid>

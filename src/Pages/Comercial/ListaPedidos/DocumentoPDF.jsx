@@ -33,6 +33,7 @@ function DocumentoPDF({selectCliente,desde,hasta,lista,detalles}) {
                 <td>Prod./Serv.</td>
                 <td>Cant</td>
                 <td>Precio</td>
+                <td>Estado</td>
                 <td>Total</td>
             </tr>
             {
@@ -46,6 +47,7 @@ function DocumentoPDF({selectCliente,desde,hasta,lista,detalles}) {
                         <td>{e.nombre_producto}</td>
                         <td>{e.cantidad_pedido}</td>
                         <td>{funciones.numberFormat(e.precio_venta_item)}</td>
+                        <td>{e.estado_pago==='0' ? 'pendiente' : 'pagado'}</td>
                         <td>{funciones.numberFormat(e.total_pedido)}</td>
                     </tr>
                 ))

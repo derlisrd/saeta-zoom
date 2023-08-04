@@ -9,7 +9,7 @@ function SelectTipo({onChange}) {
             size='small'
             defaultValue='0'
         >
-          <MenuItem value='0'>Todos</MenuItem>
+          <MenuItem value='0'>TODOS</MenuItem>
           <MenuItem value='1'>NORMAL PREESCRIPCION</MenuItem>
           <MenuItem value='2'>CORTESIA</MenuItem>
           <MenuItem value='3'>GARANTIA</MenuItem>

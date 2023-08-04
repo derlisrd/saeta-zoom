@@ -8,7 +8,7 @@ const ListaPedidosContext = createContext()
 function ListaPedidosProvider({children}) {
 
     const [selectCliente,setSelectCliente]=useState(null)
-    const [dialogs,setDialogs] = useState({imprimir:false,editar_pedido:false,cancelar:false,cambio_estado:false,pdf:false,excel:false})
+    const [dialogs,setDialogs] = useState({imprimir:false,editar_pedido:false,cancelar:false,cambio_estado:false,pdf:false,excel:false,pago:false})
     const [loading,setLoading] = useState(true)
     const today = funciones.fechaActualYMD()
     const [formSelect,setFormSelect] = useState({})

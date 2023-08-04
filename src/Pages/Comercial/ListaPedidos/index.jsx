@@ -1,3 +1,4 @@
+import CambiarPago from "./CambiarPago";
 import CambioEstado from "./CambioEstado";
 import Cancelar from "./Cancelar";
 import DialogExcel from "./DialogExcel";
@@ -12,6 +13,7 @@ function ListaPedidos() {
     return (<ListaPedidosProvider>
         <Lista />
         <DialogExcel />
+        <CambiarPago />
         <DialogPDF />
         <CambioEstado />
         <Cancelar />
