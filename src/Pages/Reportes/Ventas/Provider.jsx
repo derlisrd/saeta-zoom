@@ -7,3 +7,6 @@ export function Provider({children}) {
     return ( <Context.Provider value={values}>{children}</Context.Provider> );
 }
 
+export function useReportesVentas(){
+    
+}
