@@ -16,6 +16,7 @@ function DialogPDF() {
     const [desde,setDesde] = useState('')
     const [hasta,setHasta]= useState('')
     const [pago,setPago] = useState('');
+    const [tipo,setTipo] = useState('');
     const [selectCliente,setSelectCliente]=useState(null)
     const [search,setSearch]= useState('')
     const [detalles,setDetalles] = useState({total:0,cliente:'',fecha_inicio:'',fecha_fin:''})
@@ -30,6 +31,7 @@ function DialogPDF() {
         setDetalles({total:0,cliente:'',fecha_inicio:'',fecha_fin:''})
         setSearch('')
         setPago('')
+        setTipo('')
     }
     const insertarCliente = (e,value)=>{
         setSelectCliente(value)
@@ -55,11 +57,14 @@ function DialogPDF() {
             where =`cliente_id_pedido,=,${selectCliente.id_cliente},and,fecha_pedido,between,'${desde} 00:00:00',and,'${hasta} 23:59:59',and,estado_pedido,<>,0`
         }
         if(pago!==''){
+           where += `,and,tipo_pedido,=,${tipo}` 
+        }
+        if(tipo!==''){
            where += `,and,estado_pago,=,${pago}` 
         }
         let res = await APICALLER.get({table:'pedidos_items',include:'pedidos,productos,clientes',
         on:'pedido_id,id_pedido,id_producto,producto_id_item,id_cliente,cliente_id_pedido,codigo',
-        fields:'precio_venta_item,id_pedido,cantidad_pedido,fecha_pedido,codigo_producto,nombre_producto,id_cliente,nombre_cliente,codigo_cliente_pedido,estado_pago',
+        fields:'tipo_pedido,precio_venta_item,id_pedido,cantidad_pedido,fecha_pedido,codigo_producto,nombre_producto,id_cliente,nombre_cliente,codigo_cliente_pedido,estado_pago',
         where
         })
         if(res.response)
@@ -159,7 +164,24 @@ function DialogPDF() {
                             <TextField type="date" fullWidth size="small" error={error.code===2} onChange={e=>{setHasta(e.target.value)}} helperText='Fecha hasta' />
                        </Stack>
                     </Grid>
-                    <Grid item xs={12} sm={2}>
+                    <Grid item xs={12} sm={1}>
+                    <FormControl fullWidth>
+                        <InputLabel sx={{ lineHeight:'0.8rem' }}>Tipo</InputLabel>
+                        <Select
+                            size="small"
+                            defaultValue=""
+                            value={tipo}
+                            label="Tipo"
+                            onChange={(e)=>{ setTipo(e.target.value)}}
+                        >
+                            <MenuItem value=''>Todos</MenuItem>
+                            <MenuItem value='1'>Normal</MenuItem>
+                            <MenuItem value='2'>Cortesia</MenuItem>
+                            <MenuItem value='3'>Garantia</MenuItem>
+                        </Select>
+                    </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={1}>
                     <FormControl fullWidth>
                         <InputLabel sx={{ lineHeight:'0.8rem' }}>Pago</InputLabel>
                         <Select
@@ -175,16 +197,16 @@ function DialogPDF() {
                         </Select>
                     </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={2}>
+                    <Grid item xs={12} sm={1}>
                         <Stack direction='row' spacing={1}>
                         <Button onClick={filtrar} variant="outlined">Filtrar</Button>
-                        <Button onClick={reset} startIcon={<Icon>cleaning_services</Icon>} variant="outlined">Limpiar</Button>
+                        <Button onClick={reset}  variant="outlined">Limpiar</Button>
                         </Stack>
                     </Grid>
                 </Grid>
                 {
                     lista.length>0 && 
-                    <div ref={divRef}><DocumentoPDF lista={lista} detalles={detalles} desde={desde} hasta={hasta} selectCliente={selectCliente} /></div>
+                    <div ref={divRef}><DocumentoPDF setLista={setLista} lista={lista} detalles={detalles} desde={desde} hasta={hasta} selectCliente={selectCliente} /></div>
                     
                 }
             </DialogContent>

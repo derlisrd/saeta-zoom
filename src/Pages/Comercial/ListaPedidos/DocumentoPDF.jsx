@@ -1,7 +1,16 @@
 import { funciones } from "../../../App/helpers/funciones";
 import '../../../Styles/reportes.css'
 
+const TIPOS = {
+    "1": "Normal",
+    "2": "Cortesia",
+    "3": "Garantia",
+    "4": "Solo Cristal"
+}
+
 function DocumentoPDF({selectCliente,desde,hasta,lista,detalles}) {
+
+
     return ( <div id='_pdf'>
     <table width='100%' className="_pdf_detalles">
         <tbody>
@@ -34,6 +43,7 @@ function DocumentoPDF({selectCliente,desde,hasta,lista,detalles}) {
                 <td>Cant</td>
                 <td>Precio</td>
                 <td>Estado</td>
+                <td>TIPO</td>
                 <td>Total</td>
             </tr>
             {
@@ -48,7 +58,9 @@ function DocumentoPDF({selectCliente,desde,hasta,lista,detalles}) {
                         <td>{e.cantidad_pedido}</td>
                         <td>{funciones.numberFormat(e.precio_venta_item)}</td>
                         <td>{e.estado_pago==='0' ? 'pendiente' : 'pagado'}</td>
+                        <td>{TIPOS[e.tipo_pedido]}</td>
                         <td>{funciones.numberFormat(e.total_pedido)}</td>
+                        
                     </tr>
                 ))
             }
