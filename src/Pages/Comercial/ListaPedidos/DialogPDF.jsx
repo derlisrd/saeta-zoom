@@ -145,14 +145,28 @@ function DialogPDF() {
                         options={listaCliente}
                         onChange={insertarCliente} disabled={todos} 
                         loadingText="Cargando..." loading={loadingSearch} noOptionsText="No existe en registro..."
-                        renderInput={(params) => <TextField {...params} fullWidth size="small" onChange={e=>setSearch(e.target.value)} label="Buscar por codigo, ruc o nombre" />}
+                        renderInput={(params) => <TextField {...params} fullWidth size="small" onChange={e=>setSearch(e.target.value)} label="Cliente ruc o nombre" />}
                     />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={4}>
                        <Stack direction='row' spacing={1}>
                             <TextField type="date"  fullWidth size="small" error={error.code===1} onChange={e=>{setDesde(e.target.value)}} helperText='Fecha desde' />
                             <TextField type="date" fullWidth size="small" error={error.code===2} onChange={e=>{setHasta(e.target.value)}} helperText='Fecha hasta' />
                        </Stack>
+                    </Grid>
+                    <Grid item xs={12} sm={2}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                        <Select
+                            value={age}
+                            label="Age"
+                            onChange={handleChange}
+                        >
+                            <MenuItem value={10}>Ten</MenuItem>
+                            <MenuItem value={20}>Twenty</MenuItem>
+                            <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                    </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={2}>
                         <Stack direction='row' spacing={1}>
