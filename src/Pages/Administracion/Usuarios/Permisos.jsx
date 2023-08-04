@@ -56,7 +56,7 @@ function Permisos() {
           }
           setLoading(false)
         } 
-    },[formSelect])
+    },[formSelect,dialogs.permisos,lista.permisos])
   
   
       useEffect(()=>{

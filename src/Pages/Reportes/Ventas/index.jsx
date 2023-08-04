@@ -1,5 +1,7 @@
+import { Provider } from "./Provider";
+
 function Ventas() {
-    return ( <h1>Reportes de ventas</h1> );
+    return (<Provider></Provider>);
 }
 
 export default Ventas;

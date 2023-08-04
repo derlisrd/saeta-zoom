@@ -35,13 +35,13 @@ const UsuariosProvider = ({children}) => {
       token:token_user,
       pagenumber:currentPage,pagesize:pagination.size
     };
-    let [res,per] = await Promise.all([APICALLER.get(config),APICALLER.get({table:'permisos',sort:'clave_permiso'})])
+    let [res,per] = await Promise.all([APICALLER.get(config),APICALLER.get({table:'permisos',sort:'-clave_permiso'})])
     if(res.response){
       setLista({users:res.results,permisos:per.results})
       setPagination(pre=>{ return {...pre,total:res.total,found:res.found} })
     }else{ console.log(res);}
     setIsLoading(false)
-  },[currentPage])
+  },[currentPage,pagination.size,token_user])
 
   useEffect(() => {
     const ca = new AbortController(); let isActive = true;
