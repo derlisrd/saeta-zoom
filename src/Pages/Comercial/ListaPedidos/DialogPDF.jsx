@@ -56,11 +56,11 @@ function DialogPDF() {
         if(!todos){
             where =`cliente_id_pedido,=,${selectCliente.id_cliente},and,fecha_pedido,between,'${desde} 00:00:00',and,'${hasta} 23:59:59',and,estado_pedido,<>,0`
         }
-        if(pago!==''){
-           where += `,and,tipo_pedido,=,${pago}` 
-        }
         if(tipo!==''){
-           where += `,and,estado_pago,=,${tipo}` 
+           where += `,and,tipo_pedido,=,${tipo}` 
+        }
+        if(pago!==''){
+           where += `,and,estado_pago,=,${pago}` 
         }
         let res = await APICALLER.get({table:'pedidos_items',include:'pedidos,productos,clientes',
         on:'pedido_id,id_pedido,id_producto,producto_id_item,id_cliente,cliente_id_pedido,codigo',
