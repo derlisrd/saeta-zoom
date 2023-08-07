@@ -7,6 +7,12 @@ const TIPOS = {
     "3": "Garantia",
     "4": "Solo Cristal"
 }
+const TIPOS2 = {
+    "1": "+",
+    "2": "-",
+    "3": "-",
+    "4": "+"
+}
 
 function DocumentoPDF({selectCliente,desde,hasta,lista,detalles}) {
 
@@ -59,7 +65,7 @@ function DocumentoPDF({selectCliente,desde,hasta,lista,detalles}) {
                         <td>{funciones.numberFormat(e.precio_venta_item)}</td>
                         <td>{e.estado_pago==='0' ? 'pendiente' : 'pagado'}</td>
                         <td>{TIPOS[e.tipo_pedido]}</td>
-                        <td>{funciones.numberFormat(e.total_pedido)}</td>
+                        <td>{TIPOS2[e.tipo_pedido]} {funciones.numberFormat(e.total_pedido)}</td>
                         
                     </tr>
                 ))

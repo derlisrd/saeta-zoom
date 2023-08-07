@@ -186,6 +186,7 @@ function DialogPDF() {
                             <MenuItem value='1'>Normal</MenuItem>
                             <MenuItem value='2'>Cortesia</MenuItem>
                             <MenuItem value='3'>Garantia</MenuItem>
+                            <MenuItem value='4'>Solo Cristal</MenuItem>
                         </Select>
                     </FormControl>
                     </Grid>

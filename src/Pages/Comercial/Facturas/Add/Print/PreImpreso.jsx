@@ -20,9 +20,7 @@ function PreImpreso() {
       setGrabado(false)
     }
     const divRef = useRef();
-    const handlePrint = useReactToPrint({
-        content: () => divRef.current,
-      });
+    const handlePrint = useReactToPrint({content: () => divRef.current});
 
     const grabarFactura = async()=>{
       

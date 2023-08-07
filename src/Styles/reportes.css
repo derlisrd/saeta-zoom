@@ -27,10 +27,10 @@ CSS DE PEDIDOS Y REPORTES
     padding:1rem;
     margin:0 auto;
     width: 100%;
-    max-width: 200mm;
+    max-width: 210mm;
     color:#000;
     background-color: #fff;
-    font-size: .75rem;
+    font-size: .65rem;
 }
 ._pdf_head{
     color:#fff;

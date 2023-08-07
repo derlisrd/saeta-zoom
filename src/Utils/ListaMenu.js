@@ -27,7 +27,7 @@ export const ListaMenu = [
                 icon:'receipt_long'
             },
             {
-                id:41,
+                id:54,
                 title:'Recibos pedido',
                 url:'/pedidos/recibos',
                 icon:'view_in_ar'
