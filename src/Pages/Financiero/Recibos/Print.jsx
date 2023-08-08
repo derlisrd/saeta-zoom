@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Icon } from "@mui/material";
 import { useRecibosProvider } from "./Provider";
-import { useEffect,useState,useRef } from "react";
+import { useEffect,useState,useRef, useCallback } from "react";
 import { useReactToPrint } from 'react-to-print';
 import { APICALLER } from "../../../Services/api";
 import LoadingPage from "../../../Components/UI/LoadingPage";
@@ -14,7 +14,7 @@ function Print() {
     const close = ()=> setDialogs({...dialogs,print:false})
 
     const print = useReactToPrint({content: () => ref.current});
-    const getLista = async()=>{
+    const getLista = useCallback(async()=>{
         if(dialogs.print){
             setLoading(true)
             let res = await APICALLER.get({table:'recibos_items',include:'facturas',on:'factura_id_recibo,id_factura',where:`recibo_id,=,${formSelect.id_recibo}`})
@@ -28,13 +28,13 @@ function Print() {
             }
             setLoading(false)
         }
-    }
+    },[dialogs.print,formSelect]);
     
     useEffect(()=>{
         const ca = new AbortController(); let isActive = true;
         if (isActive) {getLista();}
         return () => {isActive = false; ca.abort();};
-    },[formSelect,dialogs])
+    },[formSelect,dialogs,getLista])
 
     return ( <Dialog fullScreen onClose={close} open={dialogs.print}>
         <DialogTitle>Imprimir recibo</DialogTitle>

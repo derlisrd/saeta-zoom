@@ -96,7 +96,6 @@ export const funciones = {
       return dia;
     },
     getMesString: (datetime)=>{
-      var datetime = '2023-07-19 15:30:00';
       var fecha = new Date(datetime);
       var nombreMes = fecha.toLocaleString('es-ES', { month: 'long' });
       return (nombreMes);
