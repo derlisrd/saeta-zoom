@@ -48,7 +48,7 @@ const ClientesProvider = ({children}) => {
       setPagination(pre=>{ return {...pre,total:res.total,found:res.found} })
     }else{ console.log(res);}
     setIsLoading(false)
-  },[currentPage])
+  },[currentPage,pagination])
 
   useEffect(() => {
     const ca = new AbortController(); let isActive = true;
