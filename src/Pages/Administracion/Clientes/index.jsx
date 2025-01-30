@@ -1,9 +1,8 @@
-import React from 'react'
-import Add from './Add'
-import ClientesProvider from './ClientesProvider'
-import Delete from './Delete'
-import Edit from './Edit'
-import ListaClientes from './ListaClientes'
+import Add from "./Add";
+import ClientesProvider from "./ClientesProvider";
+import Delete from "./Delete";
+import Edit from "./Edit";
+import ListaClientes from "./ListaClientes";
 
 const Clientes = () => {
   return (
@@ -13,7 +12,7 @@ const Clientes = () => {
       <Edit />
       <ListaClientes />
     </ClientesProvider>
-  )
-}
+  );
+};
 
-export default Clientes
+export default Clientes;
