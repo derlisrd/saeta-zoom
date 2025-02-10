@@ -109,7 +109,8 @@ function Add() {
 
     if (res.response) {
       if (res.found > 0) {
-        let factura = res.first;
+        const indice = res.found - 1;
+        let factura = res.results[indice];
         if (cliente.id_cliente !== factura.id_cliente && cliente.id_cliente !== null) {
           setError({ active: true, msg: "Ese número de factura, pertenece a otro cliente." });
           setLoading(false);
@@ -140,7 +141,6 @@ function Add() {
             {loading && <LinearProgress />}
             {error.active && (
               <Alert icon={false} severity="error">
-                {" "}
                 {error.msg}
               </Alert>
             )}
