@@ -1,1 +1,0 @@
-export const NOMBRE_EMPRESA = 'ZOOM OPTICAL EAS';

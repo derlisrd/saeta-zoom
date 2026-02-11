@@ -1,10 +1,41 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
+import path from "path";
+// @ts-ignore
 
-// https://vitejs.dev/config/
+const root = path.resolve(__dirname, "src");
+
+// https://vite.dev/config/
 export default defineConfig({
+  base: "/",
   plugins: [react()],
-  build: {
-    outDir: 'site', 
+  resolve: {
+    alias: {
+      "@": root
+    }
   },
-})
+  build:{
+    outDir: './dist',
+    emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'utils-vendor': [
+            'axios',
+            'browser-image-compression', 
+            'react-dropzone',
+            '@tanstack/react-query',
+            '@formkit/tempo'
+          ]
+        },
+        chunkFileNames: "assets/[name].[hash].js",
+        entryFileNames: "js/[name].[hash].js",
+        assetFileNames: "assets/[name].[hash].[ext]",
+      },
+    }
+  },
+  server: {
+    port: 3000,
+  }
+});
