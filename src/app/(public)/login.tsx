@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { Box, Button, Checkbox, Container, FormControlLabel, TextField, Typography, Link, Paper, Avatar, CssBaseline } from "@mui/material";
+import { Box, Button, Container, TextField, Typography, Paper, Avatar } from "@mui/material";
+import { useAuth } from "@/providers/auth-provider";
 
 // Definimos la interfaz para el estado del formulario
 interface LoginState {
@@ -7,7 +8,8 @@ interface LoginState {
   password: string;
 }
 
-const LoginPage: React.FC = () => {
+const LoginPage = () => {
+  const { signIn } = useAuth();
   const [formData, setFormData] = useState<LoginState>({
     email: "",
     password: "",
@@ -25,7 +27,7 @@ const LoginPage: React.FC = () => {
   // Tipado para el envío del formulario
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("Enviando a producción:", formData);
+    signIn(formData.email, formData.password);
   };
 
   return (
