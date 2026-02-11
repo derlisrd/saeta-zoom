@@ -28,6 +28,7 @@ export default function CategoriasLista() {
         columns={[
           { key: "id", label: "ID", width: width * 0.1 },
           { key: "nombre", label: "Nombre", width: width * 0.2 },
+          { key: "created_at", label: "Creado", width: width * 0.3, render: (row) => new Date(row.created_at).toLocaleString() },
         ]}
       />
     </Container>

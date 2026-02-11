@@ -33,11 +33,13 @@ export default function TableCustom<T extends { id: string | number }>({ data, c
       ref={parentRef}
       boxShadow={6}
       marginTop={1}
-      borderRadius={3}
+      p={1}
       sx={{
         height: height,
         overflow: "auto",
-        position: "relative", // Importante para el scroll
+        position: "relative",
+        borderBottomRightRadius: 12,
+        borderBottomLeftRadius: 12,
       }}
     >
       {/* HEADER: Se mantiene fijo arriba */}
@@ -48,12 +50,14 @@ export default function TableCustom<T extends { id: string | number }>({ data, c
           position: "sticky",
           top: 0,
           zIndex: 2,
-          bgcolor: "primary.main",
+          borderRadius: 1,
+          bgcolor: "background.paper",
           fontWeight: "bold",
+          p: 1,
         }}
       >
         {columns.map((col) => (
-          <Box key={col.label} sx={{ p: 1, textTransform: "uppercase" }}>
+          <Box key={col.label} sx={{ textTransform: "uppercase" }}>
             {col.label}
           </Box>
         ))}
