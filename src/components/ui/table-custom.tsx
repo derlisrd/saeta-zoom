@@ -21,7 +21,7 @@ export default function TableCustom<T extends { id: string | number }>({ data, c
   const rowVirtualizer = useVirtualizer({
     count: data.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 48,
+    estimateSize: () => 36,
     overscan: 5,
   });
 
@@ -32,11 +32,11 @@ export default function TableCustom<T extends { id: string | number }>({ data, c
     <Box
       ref={parentRef}
       boxShadow={6}
+      marginTop={1}
+      borderRadius={3}
       sx={{
         height: height,
         overflow: "auto",
-        border: "none",
-        borderRadius: "4px",
         position: "relative", // Importante para el scroll
       }}
     >
@@ -48,8 +48,7 @@ export default function TableCustom<T extends { id: string | number }>({ data, c
           position: "sticky",
           top: 0,
           zIndex: 2,
-          bgcolor: "secondary.main",
-          borderBottom: "1px solid #eee",
+          bgcolor: "primary.main",
           fontWeight: "bold",
         }}
       >
@@ -69,11 +68,11 @@ export default function TableCustom<T extends { id: string | number }>({ data, c
           position: "relative",
         }}
       >
-        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+        {rowVirtualizer.getVirtualItems().map((virtualRow, i) => {
           const rowData = data[virtualRow.index];
           return (
             <Box
-              key={virtualRow.key}
+              key={i}
               sx={{
                 display: "grid",
                 gridTemplateColumns: gridTemplate,
@@ -85,13 +84,13 @@ export default function TableCustom<T extends { id: string | number }>({ data, c
                 transform: `translateY(${virtualRow.start}px)`,
                 borderBottomWidth: "1px",
                 borderBottomStyle: "solid",
-                borderBottomColor: "text.secondary",
+                borderBottomColor: "background.paper",
                 alignItems: "center",
                 "&:hover": { bgcolor: "background.paper" },
               }}
             >
-              {columns.map((col) => (
-                <Box key={String(col.key)} sx={{ px: 1 }}>
+              {columns.map((col, i) => (
+                <Box key={i} sx={{ px: 1 }}>
                   {col.render ? col.render(rowData) : (rowData[col.key as keyof T] as any)}
                 </Box>
               ))}

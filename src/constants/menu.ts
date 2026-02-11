@@ -19,8 +19,56 @@ const menu: menuType[] = [
     submenu: null,
     descripcion: "Inicio"
   },
+  {
+    id: 3,
+    title: "Comercial",
+    icon: "ad-2",
+    url: null,
+    private: false,
+    open: false,
+    descripcion: null,
+    submenu: [
+      {
+        id: 145,
+        title: "Generar pedido",
+        icon: "add",
+        url: "/productos/add",
+        private: false,
+        descripcion: "Agregar producto",
+        submenu: null
+      },
+      {
+        id: 343,
+        title: "Lista de pedidos",
+        icon: "list",
+        url: "/productos/lista",
+        private: false,
+        descripcion: "Lista de productos",
+        submenu: null
+      },
+      {
+        id: 3431,
+        title: "Inventario",
+        icon: "list",
+        url: "/productos/carga-stock",
+        private: false,
+        descripcion: "Inventario de productos",
+        submenu: null
+      },
+
+      {
+        id: 1425,
+        title: "Categorias",
+        icon: "category",
+        url: "/productos/categorias",
+        private: false,
+        descripcion: "Lista de categorias",
+        submenu: null
+      }
+    ]
+  },
  {
-    id: 3438,
+    id: 2,
     title: "Productos",
     icon: "packages",
     url: null,

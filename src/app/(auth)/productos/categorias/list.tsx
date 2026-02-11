@@ -1,12 +1,12 @@
 import TableCustom from "@/components/ui/table-custom";
 import { useWindowWidth } from "@/core/hooks/use-window-widht-hook";
 import { querylib } from "@/services/libs/query-lib";
-import { Container } from "@mui/material";
+import { Container, LinearProgress } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 
 export default function CategoriasLista() {
   const width = useWindowWidth();
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["categorias"],
     staleTime: 1000 * 60 * 10,
     queryFn: async () => {
@@ -21,6 +21,7 @@ export default function CategoriasLista() {
   return (
     <Container>
       <h3>Categorias</h3>
+      {isLoading && <LinearProgress />}
       <TableCustom
         height={700}
         data={data ?? []}
