@@ -22,10 +22,6 @@ export default defineConfig({
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'utils-vendor': [
-            'axios',
-            'browser-image-compression', 
-            'react-dropzone',
-            '@tanstack/react-query',
             '@formkit/tempo'
           ]
         },

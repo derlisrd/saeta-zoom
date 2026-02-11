@@ -1,7 +1,7 @@
 import { components } from "@/theme/components";
 import { pallete } from "@/theme/pallete";
 import { shadowsDark } from "@/theme/shadows";
-import { typography } from "@/theme/typograhpy";
+import { typography } from "@/theme/typography";
 import { createTheme, Theme } from "@mui/material/styles";
 import { createContext, ReactNode, useContext } from "react";
 

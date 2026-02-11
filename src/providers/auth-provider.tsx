@@ -5,11 +5,12 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 interface AuthContextType {
   user: User | null;
   session: Session | null;
-  loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
+  isLoading: boolean;
+  signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: Error | null }>;
+  error: Error | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,14 +22,15 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     // Verificar sesión actual
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      setLoading(false);
+      setIsLoading(false);
     });
 
     // Escuchar cambios de autenticación
@@ -37,7 +39,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
-      setLoading(false);
+      setIsLoading(false);
     });
 
     return () => subscription.unsubscribe();
@@ -45,13 +47,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signIn = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      if (!email || !password) {
+        setError(new Error("Por favor, ingresa tu correo electrónico y contraseña"));
+        return;
+      }
+      setIsLoading(true);
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-      return { error };
+      if (data) {
+        setSession(data.session);
+        setUser(data.user);
+      }
+      if (error && error.code === "invalid_credentials") {
+        setError(new Error("Correo electrónico o contraseña incorrectos"));
+      }
     } catch (error) {
-      return { error: error as Error };
+      setError(error as Error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -68,6 +83,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const signOut = async () => {
+    setUser(null);
+    setSession(null);
     await supabase.auth.signOut();
   };
 
@@ -83,9 +100,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const value: AuthContextType = {
+    error,
     user,
     session,
-    loading,
+    isLoading,
     signIn,
     signUp,
     signOut,

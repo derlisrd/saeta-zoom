@@ -10,7 +10,7 @@ export const pallete = {
     contrastText: "#fff"
   },
   secondary: {
-    main: "#74aaccff",
+    main: "#74aacc",
     //light: "#F5EBFF",
     // dark: will be calculated from palette.secondary.main,
     contrastText: "#f9f9f9"
