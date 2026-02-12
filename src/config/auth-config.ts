@@ -6,7 +6,7 @@ import { SupabaseAuthAdapter } from "@/services/auth/adapters/supabase-adapter";
 
 
 // Aquí defines qué adapter usar
-export function createAuthAdapter(): AuthAdapter {
+export function createAuthAdapterConfig(): AuthAdapter {
   const provider = import.meta.env.VITE_AUTH_PROVIDER || 'supabase';
 
   switch (provider) {

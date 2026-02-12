@@ -1,6 +1,6 @@
 // services/auth/AuthContext.tsx
 
-import { createAuthAdapter } from "@/config/auth-config";
+import { createAuthAdapterConfig } from "@/config/auth-config";
 import { AuthAdapter } from "@/services/auth/adapters/auth-adapter";
 import { AuthError, AuthSession, AuthUser } from "@/services/auth/types";
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
@@ -10,8 +10,8 @@ interface AuthContextType {
   session: AuthSession | null;
   isLoading: boolean;
   error: AuthError | null;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, metadata?: Record<string, any>) => Promise<void>;
+  signIn: (identifier: string, password: string) => Promise<void>; // Cambio aquí
+  //signUp: (email: string, password: string, username?: string, metadata?: Record<string, any>) => Promise<void>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   clearError: () => void;
@@ -25,35 +25,35 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children, adapter: injectedAdapter }: AuthProviderProps) {
-  const [adapter] = useState<AuthAdapter>(() => injectedAdapter || createAuthAdapter());
+  const [adapter] = useState<AuthAdapter>(() => injectedAdapter || createAuthAdapterConfig());
   const [user, setUser] = useState<AuthUser | null>(null);
   const [session, setSession] = useState<AuthSession | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<AuthError | null>(null);
 
   useEffect(() => {
-    // Cargar sesión inicial
     adapter.getSession().then((session) => {
       setSession(session);
       setUser(session?.user ?? null);
       setIsLoading(false);
+      //console.log("Sesión inicial cargada:", session);
     });
 
-    // Escuchar cambios de autenticación
     const unsubscribe = adapter.onAuthStateChange((session) => {
       setSession(session);
       setUser(session?.user ?? null);
       setIsLoading(false);
+      //console.log("unsuscribe", session);
     });
 
     return () => unsubscribe();
   }, [adapter]);
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (identifier: string, password: string) => {
     try {
-      if (!email || !password) {
+      if (!identifier || !password) {
         setError({
-          message: "Por favor, ingresa tu correo electrónico y contraseña",
+          message: "Por favor, ingresa tu usuario/email y contraseña",
           code: "INVALID_CREDENTIALS",
         });
         return;
@@ -62,18 +62,10 @@ export function AuthProvider({ children, adapter: injectedAdapter }: AuthProvide
       setIsLoading(true);
       setError(null);
 
-      const result = await adapter.signIn({ email, password });
+      const result = await adapter.signIn({ identifier, password });
 
       if (result.error) {
-        // Personalizar mensajes de error
-        if (result.error.code === "invalid_credentials") {
-          setError({
-            ...result.error,
-            message: "Correo electrónico o contraseña incorrectos",
-          });
-        } else {
-          setError(result.error);
-        }
+        setError(result.error);
         return;
       }
 
@@ -88,29 +80,6 @@ export function AuthProvider({ children, adapter: injectedAdapter }: AuthProvide
       });
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const signUp = async (email: string, password: string, metadata?: Record<string, any>) => {
-    try {
-      setError(null);
-      const result = await adapter.signUp({ email, password, metadata });
-
-      if (result.error) {
-        setError(result.error);
-        throw result.error;
-      }
-
-      if (result.data) {
-        setSession(result.data);
-        setUser(result.data.user);
-      }
-    } catch (error) {
-      setError({
-        message: "Error al crear la cuenta",
-        originalError: error,
-      });
-      throw error;
     }
   };
 
@@ -159,7 +128,7 @@ export function AuthProvider({ children, adapter: injectedAdapter }: AuthProvide
     isLoading,
     error,
     signIn,
-    signUp,
+    //signUp,
     signOut,
     resetPassword,
     clearError,

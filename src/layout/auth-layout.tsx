@@ -9,7 +9,7 @@ import { useLayoutProvider } from "@/providers/layout-provider";
 function AuthMenuLayout() {
   const navigate = useNavigate();
   const { signOut } = useAuth();
-  const { isOpenMenu, toggleMenu, isOpenMobileMenu, toggleMobileMenu, DRAWER_WIDTH, toggleConfigDrawer } = useLayoutProvider();
+  const { isOpenMenu, toggleMenu, isOpenMobileMenu, toggleMobileMenu, DRAWER_WIDTH } = useLayoutProvider();
 
   let margin_left = isOpenMenu ? `${DRAWER_WIDTH}px` : "0";
   let width_main = isOpenMenu ? `calc(100% - ${DRAWER_WIDTH}px)` : "100%";
@@ -42,11 +42,6 @@ function AuthMenuLayout() {
           </Stack>
 
           <Stack flexDirection="row">
-            <Tooltip placement="bottom" arrow title="Tema">
-              <IconButton onClick={toggleConfigDrawer}>
-                <Icon name="brush" />
-              </IconButton>
-            </Tooltip>
             <Tooltip placement="bottom" arrow title="Cerrar sesión">
               <IconButton onClick={handleSignOut}>
                 <Icon name="door-exit" />

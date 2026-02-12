@@ -4,14 +4,14 @@ import {
   AuthUser, 
   AuthSession, 
   SignInCredentials, 
-  SignUpCredentials,
+  //SignUpCredentials,
   AuthResult 
 } from '../types';
 
 export interface AuthAdapter {
   // Métodos de autenticación
   signIn(credentials: SignInCredentials): Promise<AuthResult<AuthSession>>;
-  signUp(credentials: SignUpCredentials): Promise<AuthResult<AuthSession>>;
+  //signUp(credentials: SignUpCredentials): Promise<AuthResult<AuthSession>>;
   signOut(): Promise<AuthResult>;
   resetPassword(email: string): Promise<AuthResult>;
   

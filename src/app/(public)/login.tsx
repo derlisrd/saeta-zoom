@@ -5,14 +5,14 @@ import LoadingScreen from "@/components/feedback/loading-screen";
 
 // Definimos la interfaz para el estado del formulario
 interface LoginState {
-  email: string;
+  identifier: string;
   password: string;
 }
 
 const LoginPage = () => {
   const { signIn, isLoading, error } = useAuth();
   const [formData, setFormData] = useState<LoginState>({
-    email: "",
+    identifier: "",
     password: "",
   });
 
@@ -28,7 +28,7 @@ const LoginPage = () => {
   // Tipado para el envío del formulario
   const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-    signIn(formData.email, formData.password);
+    signIn(formData.identifier, formData.password);
   };
 
   return (
@@ -68,13 +68,12 @@ const LoginPage = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Correo electrónico"
-                name="email"
-                autoComplete="email"
+                id="username"
+                label="Usuario o correo"
+                name="identifier"
+                autoComplete="identifier"
                 autoFocus
-                variant="outlined"
-                value={formData.email}
+                value={formData.identifier}
                 onChange={handleChange}
               />
               <TextField
@@ -86,7 +85,6 @@ const LoginPage = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                variant="outlined"
                 value={formData.password}
                 onChange={handleChange}
               />
