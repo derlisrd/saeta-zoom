@@ -1,7 +1,7 @@
 // config/auth.config.ts
 
 import { AuthAdapter } from "@/services/auth/adapters/auth-adapter";
-import { SupabaseAuthAdapter } from "@/services/auth/adapters/supabase-adapter";
+import { SupabaseAuthAdapter } from "@/services/auth/adapters/supabase-auth-adapter";
 
 
 

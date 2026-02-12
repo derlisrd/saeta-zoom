@@ -28,7 +28,6 @@ function AuthPages() {
         <Routes>
           <Route path="/" element={<AuthMenuLayout />}>
             <Route index element={<Home />} />
-
             <Route path="/productos/lista" element={<Productos />} />
             <Route path="/productos/categorias" element={<Categorias />} />
           </Route>

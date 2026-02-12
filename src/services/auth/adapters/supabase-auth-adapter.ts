@@ -35,7 +35,7 @@ export class SupabaseAuthAdapter implements AuthAdapter {
   }
 
   private async getUserData(userId: string): Promise<UsuarioData | null> {
-    const { data, error } = await this.client
+    const { data } = await this.client
   .from("usuarios")
   .select(`
     id,
@@ -55,7 +55,6 @@ export class SupabaseAuthAdapter implements AuthAdapter {
   .eq("user_id", userId) // Aquí usas el UUID de la sesión (auth.uid())
   .single();
 
-    console.log('datos ', data, 'error',error)
 
     return {
       id: data?.id || "",

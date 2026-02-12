@@ -1,3 +1,4 @@
+import { PermissionGuard } from "@/components/guards/permission-guard";
 import { TableCustomColumnConfig } from "@/components/types/table-custom-types";
 import TableCustom from "@/components/ui/table-custom";
 import { useWindowWidth } from "@/core/hooks/use-window-widht-hook";
@@ -20,10 +21,12 @@ export default function CategoriasLista() {
   ];
 
   return (
-    <Container>
-      <h3>Categorias</h3>
-      {isLoading && <LinearProgress />}
-      <TableCustom height={700} data={data ?? []} columns={columns} />
-    </Container>
+    <PermissionGuard permission="categorias.ver" onDenied={(reason) => console.log("Acceso denegado:", reason)}>
+      <Container>
+        <h3>Categorias</h3>
+        {isLoading && <LinearProgress />}
+        <TableCustom height={700} data={data ?? []} columns={columns} />
+      </Container>
+    </PermissionGuard>
   );
 }
