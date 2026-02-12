@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/es";
 import AuthMenuLayout from "@/layout/auth-layout";
 import LogOut from "./logout";
+import { PermissionsProvider } from "@/providers/permissions-provider";
 
 dayjs.locale("es");
 
@@ -23,15 +24,17 @@ const Loadable =
 function AuthPages() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-      <Routes>
-        <Route path="/" element={<AuthMenuLayout />}>
-          <Route index element={<Home />} />
+      <PermissionsProvider>
+        <Routes>
+          <Route path="/" element={<AuthMenuLayout />}>
+            <Route index element={<Home />} />
 
-          <Route path="/productos/lista" element={<Productos />} />
-          <Route path="/productos/categorias" element={<Categorias />} />
-        </Route>
-        <Route path="logout" element={<LogOut />} />
-      </Routes>
+            <Route path="/productos/lista" element={<Productos />} />
+            <Route path="/productos/categorias" element={<Categorias />} />
+          </Route>
+          <Route path="logout" element={<LogOut />} />
+        </Routes>
+      </PermissionsProvider>
     </LocalizationProvider>
   );
 }
