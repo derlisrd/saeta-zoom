@@ -1,21 +1,9 @@
 import { Box } from "@mui/material";
 import { useRef } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { TableCustomGenericProps } from "../types/table-custom-types";
 
-interface ColumnConfig<T> {
-  key: keyof T | string;
-  label: string;
-  width: number;
-  render?: (row: T) => React.ReactNode;
-}
-
-interface GenericTableProps<T> {
-  data: T[];
-  columns: ColumnConfig<T>[];
-  height?: number;
-}
-
-export default function TableCustom<T extends { id: string | number }>({ data, columns, height = 500 }: GenericTableProps<T>) {
+export default function TableCustom<T extends { id: string | number }>({ data, columns, height = 500 }: TableCustomGenericProps<T>) {
   const parentRef = useRef<HTMLDivElement>(null);
 
   const rowVirtualizer = useVirtualizer({
@@ -33,7 +21,8 @@ export default function TableCustom<T extends { id: string | number }>({ data, c
       ref={parentRef}
       boxShadow={6}
       marginTop={1}
-      p={1}
+      paddingBottom={1}
+      paddingX={1}
       sx={{
         height: height,
         overflow: "auto",

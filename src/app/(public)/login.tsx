@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent, Fragment } from "react";
+import { useState, ChangeEvent, SubmitEvent, Fragment } from "react";
 import { Box, Button, Container, TextField, Typography, Paper, Alert } from "@mui/material";
 import { useAuth } from "@/providers/auth-provider";
 import LoadingScreen from "@/components/feedback/loading-screen";
@@ -26,7 +26,7 @@ const LoginPage = () => {
   };
 
   // Tipado para el envío del formulario
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     signIn(formData.email, formData.password);
   };

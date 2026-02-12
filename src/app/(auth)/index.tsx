@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Suspense, lazy, LazyExoticComponent } from "react";
+import { Suspense, lazy, LazyExoticComponent, type ComponentType } from "react";
 import LoadingScreen from "@/components/feedback/loading-screen";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -11,7 +11,7 @@ import LogOut from "./logout";
 dayjs.locale("es");
 
 const Loadable =
-  <T extends object>(Component: LazyExoticComponent<() => JSX.Element>) =>
+  <T extends object>(Component: LazyExoticComponent<ComponentType<T>>) =>
   (props: T) => {
     return (
       <Suspense fallback={<LoadingScreen />}>
@@ -27,6 +27,7 @@ function AuthPages() {
         <Route path="/" element={<AuthMenuLayout />}>
           <Route index element={<Home />} />
 
+          <Route path="/productos/lista" element={<Productos />} />
           <Route path="/productos/categorias" element={<Categorias />} />
         </Route>
         <Route path="logout" element={<LogOut />} />
@@ -36,6 +37,7 @@ function AuthPages() {
 }
 
 const Home = Loadable(lazy(() => import("./home")));
-const Categorias = Loadable(lazy(() => import("./productos/categorias/list")));
+const Productos = Loadable(lazy(() => import("./productos/productos/lista")));
+const Categorias = Loadable(lazy(() => import("./productos/categorias/lista")));
 
 export default AuthPages;
