@@ -28,7 +28,7 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
         toggleMenu,
         toggleMobileMenu,
         isOpenMobileMenu,
-        DRAWER_WIDTH: 210,
+        DRAWER_WIDTH: 190,
         COLLAPSED_WIDTH: 60,
       }}
     >

@@ -7,14 +7,15 @@ type ListaFacturasParams = {
   hasta: string;
 };
 
-export const apiFacturas = {
+export const apiPedidos = {
   lista: async ({desde, hasta}: ListaFacturasParams) => {
     const { error, data } = await querylib
-      .from("facturas")
-      .select(`id, condicion, fecha,estado,fecha_cobro, forma_pago, numero, total,pagado, usuario_id, 
+      .from("pedidos")
+      .select(`*,
         usuarios(id,nombre),
-        cliente_id, clientes( id, nombre, ruc )`)
-        .gte("fecha", desde)     // 👈 filtro desde
+        cliente_id, clientes( id, nombre, ruc )
+        `)
+        .gte("fecha", desde)    
       .lte("fecha", hasta)  
     .order("id", { ascending: false })
     //.order('facturas.id',{ ascending: false })

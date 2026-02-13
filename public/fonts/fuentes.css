@@ -1,24 +1,23 @@
 @font-face {
-  font-family: 'ContiSans';
-  src: url('./ContiSansLight.otf') format('opentype');
+  font-family: 'Comfortaa';
+  src: url('./ComfortaaLight.ttf') format('truetype');
   font-weight: 300; /* Peso típico para Light */
   font-style: normal;
   font-display: swap;
 }
 
-/* Definir la fuente ContiSans (normal) */
 @font-face {
-    font-family: 'ContiSans';
-    src: url('./ContiSans.otf') format('opentype');
+    font-family: 'Comfortaa';
+    src: url('./Comfortaa.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap; /* Opcional: controla cómo se muestra la fuente mientras se carga */
   }
   
-  /* Definir la fuente ContiSans (bold) */
+  /* Definir la fuente Comfortaa (bold) */
   @font-face {
-    font-family: 'ContiSans';
-    src: url('./ContiSansBold.otf') format('opentype');
+    font-family: 'Comfortaa';
+    src: url('./ComfortaaBold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
     font-display: swap;

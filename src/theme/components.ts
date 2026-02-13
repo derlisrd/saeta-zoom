@@ -3,18 +3,46 @@ import { Components, CssVarsTheme, Theme } from "@mui/material/styles";
 
 export const components = (): Components<Omit<Theme, "components" | "palette"> & CssVarsTheme> => ({
    MuiCssBaseline: {
-    /* styleOverrides: {
-      "::-webkit-scrollbar": { 
-        width: '12px',
-        backgroundColor: '#DDD'
+    styleOverrides: {
+      /* "::-webkit-scrollbar": { 
+        width: '11px',
+        backgroundColor: '#6f6f6fff',
+        borderRadius: "10px"
       },
       '::-webkit-scrollbar-thumb':{
-        backgroundColor: "#242b33",
+        backgroundColor: "#b5b5b5ff",
         borderRadius: "10px"
-      }
-    }, */
-    
+      } */
+    },
   },
+  MuiChip: {
+    defaultProps: {
+      size: "small",
+    },
+    styleOverrides: {
+      root: {
+        borderRadius: 8,
+        padding: 0,
+        height: 20,
+        fontSize: 9,
+       "& .MuiChip-label": {
+          paddingLeft: 4,
+          paddingRight: 4
+        } 
+      }
+    }
+  },
+  MuiPaper: {
+    styleOverrides: {
+      root: {
+        "&.MuiPickersPopper-paper": {
+           boxShadow: "0px 10px 15px -3px rgba(0,0,0,0.1)",
+           borderRadius: "12px"
+        }
+      }
+    }
+  },
+
   MuiCard: {
     styleOverrides: {
       root: {
@@ -42,7 +70,7 @@ export const components = (): Components<Omit<Theme, "components" | "palette"> &
     styleOverrides: {
       root: {
         alignItems: "center",
-        borderRadius: "0 18px 18px 0",
+        borderRadius: "0 14px 14px 0",
         transition: "all 0.02s linear",
         "&.Mui-selected": {
           borderLeft: `4px solid `
@@ -56,7 +84,7 @@ export const components = (): Components<Omit<Theme, "components" | "palette"> &
                 : colorText,
              fontWeight:"bold", 
           }, */
-          borderRadius: "0 18px 18px 0"
+          borderRadius: "0 14px 14px 0"
         }
       }
     }
@@ -98,13 +126,14 @@ export const components = (): Components<Omit<Theme, "components" | "palette"> &
   MuiInput: {
     styleOverrides: {
       root: {
-        /* borderRadius: "8px",
-        padding: "18px" */
+        //borderRadius: "8px",
+       // padding: "18px"
 
         "& input": {}
       }
     }
   },
+
   MuiOutlinedInput: {
     defaultProps: {
       size: "small"
@@ -193,5 +222,5 @@ export const components = (): Components<Omit<Theme, "components" | "palette"> &
         backdropFilter: "blur(3px)"
       }
     }
-  }
+  },
 });

@@ -45,6 +45,8 @@ const MenuNavList = ({ isMobile = false, navegar, isOpenMenu = true }: { isMobil
     },
     justifyContent: isOpenMenu ? "flex-start" : "center",
     padding: isOpenMenu ? undefined : "12px 0",
+    fontWeight: "100",
+    fontSize: "9px",
   } as ListItemButtonBaseProps["sx"];
 
   const openCollapseMenu = (id: number) => {
@@ -69,7 +71,7 @@ const MenuNavList = ({ isMobile = false, navegar, isOpenMenu = true }: { isMobil
           </Typography>
           <Stack direction="column" justifyContent="center" alignItems="center" gap={1}>
             <Icon name="user-square-rounded" size={32} />
-            <Typography variant="caption">{user ? "usuario" : "non"}</Typography>
+            <Typography variant="caption">{user ? user.nombre : "non"}</Typography>
           </Stack>
         </Stack>
       </Toolbar>

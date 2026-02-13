@@ -30,6 +30,9 @@ export default function TableCustom<T extends { id: string | number }>({ data, c
         overflow: "auto",
         width: "100%",
         position: "relative",
+        boxShadow: "#00000066 8px 9px 12px",
+        borderRadius: "8px",
+        marginTop: "8px",
       }}
     >
       <table
@@ -57,10 +60,6 @@ export default function TableCustom<T extends { id: string | number }>({ data, c
                   width: `${(col.width / totalWidth) * 100}%`, // Convertir a porcentaje
                   minWidth: `${(col.width / totalWidth) * 100}%`,
                   maxWidth: `${(col.width / totalWidth) * 100}%`,
-                  textTransform: "uppercase",
-                  textAlign: "left",
-                  boxSizing: "border-box",
-                  flexShrink: 0,
                 }}
               >
                 {col.label}
@@ -103,14 +102,8 @@ export default function TableCustom<T extends { id: string | number }>({ data, c
                       width: `${(col.width / totalWidth) * 100}%`, // Mismo cálculo que el header
                       minWidth: `${(col.width / totalWidth) * 100}%`,
                       maxWidth: `${(col.width / totalWidth) * 100}%`,
-                      padding: "8px",
-                      boxSizing: "border-box",
                       overflow: "hidden",
-                      textOverflow: "ellipsis",
                       whiteSpace: "nowrap",
-                      flexShrink: 0,
-                      display: "flex",
-                      alignItems: "center",
                     }}
                   >
                     {col.render ? col.render(rowData) : (getCellValue(rowData, col.key as string) ?? "")}

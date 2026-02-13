@@ -30,16 +30,16 @@ const menu: menuType[] = [
     submenu: [
       {
         id: 1,
-        title: "Generar pedido",
+        title: "Crear pedido",
         icon: "add",
         url: "/pedidos/add",
         private: false,
-        descripcion: "Agregar pedido",
+        descripcion: "Crear pedido",
         submenu: null
       },
       {
         id: 2,
-        title: "Lista de pedidos",
+        title: "Pedidos",
         icon: "list",
         url: "/pedidos",
         private: false,
@@ -79,7 +79,7 @@ const menu: menuType[] = [
     submenu: [
       {
         id: 145,
-        title: "Agregar producto",
+        title: "Crear producto",
         icon: "add",
         url: "/productos/add",
         private: false,
@@ -88,9 +88,9 @@ const menu: menuType[] = [
       },
       {
         id: 343,
-        title: "Lista de productos",
+        title: "Productos",
         icon: "list",
-        url: "/productos/lista",
+        url: "/productos",
         private: false,
         descripcion: "Lista de productos",
         submenu: null

@@ -19,6 +19,7 @@ export default function ProductosLista() {
   });
 
   const columns: TableCustomColumnConfig<any>[] = [
+    { key: "id", label: "ID", width: width * 0.1 },
     { key: "codigo", label: "COD", width: width * 0.1 },
     { key: "nombre", label: "Nombre", width: width * 0.34 },
     { key: "precio", label: "Precio", width: width * 0.1, render: (row) => `${row.precio.toLocaleString("es-PY")}` },

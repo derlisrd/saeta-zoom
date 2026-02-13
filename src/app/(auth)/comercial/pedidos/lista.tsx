@@ -5,48 +5,45 @@ import TableCustom from "@/components/ui/table-custom";
 import { usePermissionCheck } from "@/core/hooks/use-permissions-check";
 import { useWindowWidth } from "@/core/hooks/use-window-widht-hook";
 import { helpers } from "@/core/utils/helpers";
-import { apiFacturas } from "@/services/api/facturas";
+import { format } from "@formkit/tempo";
 import { Button, Chip, Container, LinearProgress, Stack, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { Dayjs } from "dayjs";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
+import { apiPedidos } from "@/services/api/pedidos";
 
-export default function FacturasLista() {
+export default function PedidosLista() {
   const width = useWindowWidth();
-  const { hasAccess, checked } = usePermissionCheck({ permission: "facturas.ver" });
+  const { hasAccess, checked } = usePermissionCheck({ permission: "pedidos.ver" });
 
-  const rangoInicial = helpers.rangoMesActualDayjs();
+  const rangoInicial = helpers.rangoHoyDayjs();
   const [desde, setDesde] = useState<Dayjs | null>(rangoInicial.desde);
   const [hasta, setHasta] = useState<Dayjs | null>(rangoInicial.hasta);
 
   const { data, isLoading, refetch, isRefetching } = useQuery({
-    queryKey: ["facturas", desde, hasta], // 👈 importante para cache por rango
+    queryKey: ["pedidos", desde, hasta],
     staleTime: 1000 * 60 * 10,
     enabled: hasAccess && checked,
     queryFn: async () =>
-      await apiFacturas.lista({
+      await apiPedidos.lista({
         desde: desde!.startOf("day").toISOString(),
         hasta: hasta!.endOf("day").toISOString(),
       }),
   });
 
   const columns: TableCustomColumnConfig<any>[] = [
-    { key: "id", label: "COD", width: width * 0.05 },
-    { key: "fecha", label: "Fecha", width: width * 0.06, render: (row) => new Date(row.fecha).toLocaleDateString("es-PY") },
-    { key: "numero", label: "Numero", width: width * 0.09 },
-    { key: "estado", label: "Estado", width: width * 0.05 },
-    { key: "forma_pago", label: "Forma", width: width * 0.06 },
+    { key: "id", label: "ID", width: width * 0.05 },
+    { key: "clientes.nombre", label: "Cliente", width: width * 0.22, render: (row) => row.clientes?.nombre || "Sin Cliente" },
+    { key: "usuarios.nombre", label: "Usuario", width: width * 0.08, render: (row) => row.usuarios?.nombre || "Sin Usuario" },
     {
       key: "pagado",
       label: "Abonado",
       width: width * 0.06,
-      render: (row) => (row.pagado === 1 ? <Chip label="PAGADO" color="success" /> : <Chip label="A PAGAR" color="warning" />),
+      render: (row) => <Chip label={row.pagado} />,
     },
-    { key: "clientes.nombre", label: "Cliente", width: width * 0.22, render: (row) => row.clientes?.nombre || "Sin Cliente" },
-    { key: "usuarios.nombre", label: "Usuario", width: width * 0.08, render: (row) => row.usuarios?.nombre || "Sin Usuario" },
-    { key: "condicion", label: "Condición", width: width * 0.07 },
-    { key: "total", label: "Total", width: width * 0.07, render: (row) => `${row.total.toLocaleString("es-PY")}` },
+    { key: "fecha", label: "Fecha", width: width * 0.05, render: (row) => format(row.fecha, "DD-MM-YYYY") },
+    { key: "estado", label: "ESTADO", width: width * 0.05 },
   ];
 
   if (!hasAccess && checked) {
@@ -54,8 +51,8 @@ export default function FacturasLista() {
   }
 
   return (
-    <PermissionGuard permission="facturas.ver" onDenied={(reason) => console.log("Acceso denegado:", reason)}>
-      <Typography variant="button">Facturas</Typography>
+    <PermissionGuard permission="pedidos.ver" onDenied={(reason) => console.log("Acceso denegado:", reason)}>
+      <Typography variant="button">Pedidos</Typography>
       <Container>
         <Stack direction="row" spacing={1} my={1}>
           <DatePicker
