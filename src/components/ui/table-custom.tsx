@@ -1,96 +1,126 @@
-import { Box } from "@mui/material";
 import { useRef } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { TableCustomGenericProps } from "../types/table-custom-types";
+import TableContainerCustomStyled from "../styles/table-container-custom-styled";
+
+const getCellValue = (obj: any, path: string) => {
+  if (!path.includes(".")) return obj[path];
+  return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+};
 
 export default function TableCustom<T extends { id: string | number }>({ data, columns, height = 500 }: TableCustomGenericProps<T>) {
   const parentRef = useRef<HTMLDivElement>(null);
+  const count = data.length;
 
   const rowVirtualizer = useVirtualizer({
-    count: data.length,
+    count,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 36,
-    overscan: 5,
+    overscan: 10,
   });
 
-  // Creamos el template de columnas para Grid
-  const gridTemplate = columns.map((c) => `${c.width}px`).join(" ");
+  // Calcular el ancho total para convertir a porcentajes
+  const totalWidth = columns.reduce((sum, col) => sum + col.width, 0);
 
   return (
-    <Box
+    <TableContainerCustomStyled
       ref={parentRef}
-      boxShadow={6}
-      marginTop={1}
-      paddingBottom={1}
-      paddingX={1}
-      sx={{
-        height: height,
+      style={{
+        height: `${height}px`,
         overflow: "auto",
+        width: "100%",
         position: "relative",
-        borderBottomRightRadius: 12,
-        borderBottomLeftRadius: 12,
       }}
     >
-      {/* HEADER: Se mantiene fijo arriba */}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: gridTemplate,
-          position: "sticky",
-          top: 0,
-          zIndex: 2,
-          borderRadius: 1,
-          bgcolor: "background.paper",
-          fontWeight: "bold",
-          p: 1,
-        }}
-      >
-        {columns.map((col) => (
-          <Box key={col.label} sx={{ textTransform: "uppercase" }}>
-            {col.label}
-          </Box>
-        ))}
-      </Box>
-
-      {/* BODY: Contenedor relativo con la altura total del scroll */}
-      <Box
-        sx={{
-          height: `${rowVirtualizer.getTotalSize()}px`,
+      <table
+        style={{
           width: "100%",
-          minWidth: "fit-content", // Mantiene el ancho si hay scroll horizontal
-          position: "relative",
+          borderCollapse: "collapse",
+          display: "block",
         }}
       >
-        {rowVirtualizer.getVirtualItems().map((virtualRow, i) => {
-          const rowData = data[virtualRow.index];
-          return (
-            <Box
-              key={i}
-              sx={{
-                display: "grid",
-                gridTemplateColumns: gridTemplate,
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: `${virtualRow.size}px`,
-                transform: `translateY(${virtualRow.start}px)`,
-                borderBottomWidth: "1px",
-                borderBottomStyle: "solid",
-                borderBottomColor: "background.paper",
-                alignItems: "center",
-                "&:hover": { bgcolor: "background.paper" },
-              }}
-            >
-              {columns.map((col, i) => (
-                <Box key={i} sx={{ px: 1 }}>
-                  {col.render ? col.render(rowData) : (rowData[col.key as keyof T] as any)}
-                </Box>
-              ))}
-            </Box>
-          );
-        })}
-      </Box>
-    </Box>
+        {/* HEADER */}
+        <thead
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 2,
+            display: "block",
+            width: "100%",
+          }}
+        >
+          <tr className="customtable_header_row">
+            {columns.map((col) => (
+              <th
+                key={col.label}
+                style={{
+                  width: `${(col.width / totalWidth) * 100}%`, // Convertir a porcentaje
+                  minWidth: `${(col.width / totalWidth) * 100}%`,
+                  maxWidth: `${(col.width / totalWidth) * 100}%`,
+                  textTransform: "uppercase",
+                  textAlign: "left",
+                  boxSizing: "border-box",
+                  flexShrink: 0,
+                }}
+              >
+                {col.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+
+        {/* BODY */}
+        <tbody
+          style={{
+            display: "block",
+            height: `${rowVirtualizer.getTotalSize()}px`,
+            position: "relative",
+            width: "100%",
+          }}
+        >
+          {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+            const rowData = data[virtualRow.index];
+            if (!rowData) return null;
+
+            return (
+              <tr
+                key={virtualRow.key}
+                className="customtable_table_row"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: `${virtualRow.size}px`,
+                  transform: `translateY(${virtualRow.start}px)`,
+                  display: "flex",
+                }}
+              >
+                {columns.map((col, idx) => (
+                  <td
+                    key={idx}
+                    style={{
+                      width: `${(col.width / totalWidth) * 100}%`, // Mismo cálculo que el header
+                      minWidth: `${(col.width / totalWidth) * 100}%`,
+                      maxWidth: `${(col.width / totalWidth) * 100}%`,
+                      padding: "8px",
+                      boxSizing: "border-box",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      flexShrink: 0,
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    {col.render ? col.render(rowData) : (getCellValue(rowData, col.key as string) ?? "")}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </TableContainerCustomStyled>
   );
 }
