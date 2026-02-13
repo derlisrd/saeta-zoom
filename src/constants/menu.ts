@@ -67,6 +67,54 @@ const menu: menuType[] = [
       }
     ]
   },
+  {
+    id: 5,
+    title: "Financiero",
+    icon: "ad-2",
+    url: null,
+    private: false,
+    open: false,
+    descripcion: null,
+    submenu: [
+      {
+        id: 145,
+        title: "Facturas",
+        icon: "add",
+        url: "/facturas",
+        private: false,
+        descripcion: "Facturas",
+        submenu: null
+      },
+      {
+        id: 343,
+        title: "Lista de pedidos",
+        icon: "list",
+        url: "/productos/lista",
+        private: false,
+        descripcion: "Lista de productos",
+        submenu: null
+      },
+      {
+        id: 3431,
+        title: "Inventario",
+        icon: "list",
+        url: "/productos/carga-stock",
+        private: false,
+        descripcion: "Inventario de productos",
+        submenu: null
+      },
+
+      {
+        id: 1425,
+        title: "Categorias",
+        icon: "category",
+        url: "/productos/categorias",
+        private: false,
+        descripcion: "Lista de categorias",
+        submenu: null
+      }
+    ]
+  },
  {
     id: 2,
     title: "Productos",

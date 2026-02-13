@@ -28,8 +28,9 @@ function AuthPages() {
         <Routes>
           <Route path="/" element={<AuthMenuLayout />}>
             <Route index element={<Home />} />
-            <Route path="/productos/lista" element={<Productos />} />
+            <Route path="/productos" element={<Productos />} />
             <Route path="/productos/categorias" element={<Categorias />} />
+            <Route path="/facturas" element={<Facturas />} />
           </Route>
           <Route path="logout" element={<LogOut />} />
         </Routes>
@@ -41,5 +42,6 @@ function AuthPages() {
 const Home = Loadable(lazy(() => import("./home")));
 const Productos = Loadable(lazy(() => import("./productos/productos/lista")));
 const Categorias = Loadable(lazy(() => import("./productos/categorias/lista")));
+const Facturas = Loadable(lazy(() => import("./financiero/facturas/lista")));
 
 export default AuthPages;
