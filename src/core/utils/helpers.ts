@@ -59,5 +59,31 @@ export const helpers = {
       desde: inicioMes.toISOString(),
       hasta: hoy.toISOString(),
     }
+  },
+  fechaEnString(fecha : Date, inicio: boolean): string {
+    if (inicio) {
+      fecha.setHours(0, 0, 0, 0)
+
+      return fecha.toISOString()
+    }
+
+      fecha.setHours(23, 59, 59, 999)
+
+      return fecha.toISOString()
+    
+  },
+  RangoHoyfechaEnString() {
+    const hoyInicio = new Date();
+    const hoyFin = new Date();
+    
+    hoyInicio.setHours(0, 0, 0, 0);
+    hoyFin.setHours(23, 59, 59, 999);
+
+    return {
+      desde: hoyInicio.toISOString(),
+      hasta: hoyFin.toISOString()
+    }
+    
   }
+
 }

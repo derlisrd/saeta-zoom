@@ -8,7 +8,7 @@ import { helpers } from "@/core/utils/helpers";
 import { format } from "@formkit/tempo";
 import { Button, Chip, Container, LinearProgress, Stack, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import { apiPedidos } from "@/services/api/pedidos";
@@ -17,19 +17,15 @@ export default function PedidosLista() {
   const width = useWindowWidth();
   const { hasAccess, checked } = usePermissionCheck({ permission: "pedidos.ver" });
 
-  const rangoInicial = helpers.rangoHoyDayjs();
-  const [desde, setDesde] = useState<Dayjs | null>(rangoInicial.desde);
-  const [hasta, setHasta] = useState<Dayjs | null>(rangoInicial.hasta);
+  const rangoInicial = helpers.RangoHoyfechaEnString();
+  const [desde, setDesde] = useState<string>(rangoInicial.desde);
+  const [hasta, setHasta] = useState<string>(rangoInicial.hasta);
 
   const { data, isLoading, refetch, isRefetching } = useQuery({
     queryKey: ["pedidos", desde, hasta],
     staleTime: 1000 * 60 * 10,
     enabled: hasAccess && checked,
-    queryFn: async () =>
-      await apiPedidos.lista({
-        desde: desde!.startOf("day").toISOString(),
-        hasta: hasta!.endOf("day").toISOString(),
-      }),
+    queryFn: async () => await apiPedidos.lista({ desde: desde, hasta: hasta }),
   });
 
   const columns: TableCustomColumnConfig<any>[] = [
@@ -50,6 +46,18 @@ export default function PedidosLista() {
     return <NoPermissionScreen />;
   }
 
+  const handleDesdeChange = (newValue: Dayjs | null) => {
+    const date = new Date(newValue?.toISOString() || "");
+    const valor = helpers.fechaEnString(date, true);
+    setDesde(valor);
+  };
+
+  const handleHastaChange = (newValue: Dayjs | null) => {
+    const date = new Date(newValue?.toISOString() || "");
+    const valor = helpers.fechaEnString(date, false);
+    setHasta(valor);
+  };
+
   return (
     <PermissionGuard permission="pedidos.ver" onDenied={(reason) => console.log("Acceso denegado:", reason)}>
       <Typography variant="button">Pedidos</Typography>
@@ -57,8 +65,8 @@ export default function PedidosLista() {
         <Stack direction="row" spacing={1} my={1}>
           <DatePicker
             label="Desde"
-            value={desde}
-            onChange={(newValue) => setDesde(newValue)}
+            value={dayjs(desde)}
+            onChange={handleDesdeChange}
             format="DD/MM/YYYY"
             slotProps={{
               textField: {
@@ -69,8 +77,8 @@ export default function PedidosLista() {
 
           <DatePicker
             label="Hasta"
-            value={hasta}
-            onChange={(newValue) => setHasta(newValue)}
+            value={dayjs(hasta)}
+            onChange={handleHastaChange}
             format="DD/MM/YYYY"
             slotProps={{
               textField: {

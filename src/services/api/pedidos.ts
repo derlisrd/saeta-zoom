@@ -3,8 +3,8 @@ import { querylib } from "../libs/query-lib";
 
 
 type ListaFacturasParams = {
-  desde: string;
-  hasta: string;
+  desde: string | null;
+  hasta: string | null;
 };
 
 export const apiPedidos = {
@@ -12,8 +12,8 @@ export const apiPedidos = {
     const { error, data } = await querylib
       .from("pedidos")
       .select(`*,
-        usuarios(id,nombre),
-        cliente_id, clientes( id, nombre, ruc )
+        clientes(nombre),
+        usuarios(nombre)
         `)
         .gte("fecha", desde)    
       .lte("fecha", hasta)  
