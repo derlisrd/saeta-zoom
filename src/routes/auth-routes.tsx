@@ -7,13 +7,13 @@ import NotFoundScreen from "@/app/not-found";
 
 const Loadable =
   <T extends object>(Component: LazyExoticComponent<ComponentType<T>>) =>
-  (props: T) => {
-    return (
-      <Suspense fallback={<LoadingScreen />}>
-        <Component {...props} />
-      </Suspense>
-    );
-  };
+    (props: T) => {
+      return (
+        <Suspense fallback={<LoadingScreen />}>
+          <Component {...props} />
+        </Suspense>
+      );
+    };
 
 export default function AuthRoutes() {
   return (
@@ -25,6 +25,7 @@ export default function AuthRoutes() {
         <Route path="/productos/categorias" element={<Categorias />} />
 
         <Route path="/facturas" element={<Facturas />} />
+        <Route path="/cuentas-a-pagar" element={<CuentasAPagar />} />
         <Route path="/pedidos" element={<Pedidos />} />
       </Route>
       <Route path="logout" element={<LogOut />} />
@@ -36,5 +37,6 @@ export default function AuthRoutes() {
 const Home = Loadable(lazy(() => import("../app/(auth)/home")));
 const Productos = Loadable(lazy(() => import("../app/(auth)/productos/productos/lista")));
 const Categorias = Loadable(lazy(() => import("../app/(auth)/productos/categorias/lista")));
+const CuentasAPagar = Loadable(lazy(() => import("../app/(auth)/financiero/cuentas-a-pagar")));
 const Facturas = Loadable(lazy(() => import("../app/(auth)/financiero/facturas/lista")));
 const Pedidos = Loadable(lazy(() => import("../app/(auth)/comercial/pedidos/lista")));

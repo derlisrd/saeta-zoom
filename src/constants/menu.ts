@@ -45,7 +45,7 @@ const menu: menuType[] = [
         private: false,
         descripcion: "Lista de pedidos",
         submenu: null
-      },
+      }
     ]
   },
   {
@@ -58,7 +58,7 @@ const menu: menuType[] = [
     descripcion: null,
     submenu: [
       {
-        id: 145,
+        id: 1,
         title: "Facturas",
         icon: "add",
         url: "/facturas",
@@ -66,9 +66,18 @@ const menu: menuType[] = [
         descripcion: "Facturas",
         submenu: null
       },
+      {
+        id: 2,
+        title: "Cuentas a pagar",
+        icon: "add",
+        url: "/cuentas-a-pagar",
+        private: false,
+        descripcion: "Cuentas a pagar",
+        submenu: null
+      }
     ]
   },
- {
+  {
     id: 4,
     title: "Inventario",
     icon: "packages",
@@ -133,9 +142,9 @@ const menu: menuType[] = [
         private: false,
         descripcion: "Empresa",
         submenu: null
-      },
+      }
     ]
-  },
+  }
 ];
 
 export default menu;
