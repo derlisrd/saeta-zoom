@@ -32,7 +32,7 @@ const menu: menuType[] = [
         id: 1,
         title: "Crear pedido",
         icon: "add",
-        url: "/pedidos/add",
+        url: "/add-pedido",
         private: false,
         descripcion: "Crear pedido",
         submenu: null
