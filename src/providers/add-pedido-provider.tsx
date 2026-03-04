@@ -25,6 +25,8 @@ export const AddPedidoProvider = ({ children }: { children: ReactNode }) => {
     setModals((prev) => ({ ...prev, [modalName]: value }));
   }
 
+
+
   const values = {
     modals,
     setModals,

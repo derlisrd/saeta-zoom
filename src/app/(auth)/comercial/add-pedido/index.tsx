@@ -3,9 +3,10 @@ import MainModal from "./main-modal";
 import { RecetaModal } from "./receta-modal";
 
 export default function AddPedido() {
-  return <AddPedidoProvider>
-    <RecetaModal />
-    <MainModal />
-
-  </AddPedidoProvider>
+  return (
+    <AddPedidoProvider>
+      <RecetaModal />
+      <MainModal />
+    </AddPedidoProvider>
+  );
 }
