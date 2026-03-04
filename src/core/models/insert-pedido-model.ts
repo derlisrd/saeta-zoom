@@ -15,6 +15,7 @@ export interface InsertPedidoModel {
   pagado: string;
   motivo_cancelacion: string;
   usuario_id: number;
+  fecha: string;
 }
 
 export interface InsertPedidoResponseModel {

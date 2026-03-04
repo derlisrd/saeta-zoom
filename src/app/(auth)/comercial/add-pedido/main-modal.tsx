@@ -8,7 +8,7 @@ import { Autocomplete, Button, Dialog, DialogContent, DialogTitle, Grid, IconBut
 export default function MainModal() {
 
     const back = () => window.history.back();
-    const { handleOpenModal } = useAddPedido();
+    const { handleOpenModal, pedido, pedidoItems } = useAddPedido();
     const { listaBusqueda, isLoading, q, setQ } = useBuscarProductoPedido();
 
     const setearProducto = () => {
@@ -16,35 +16,11 @@ export default function MainModal() {
     }
 
     const finalizarPedido = async () => {
-        const pedido = await apiPedidos.insert({
-            numero_factura: "0",
-            cliente_id: 1,
-            armazon: "NYLON",
-            obs_laboratorio: "",
-            obs_cliente: "",
-            total: 0,
-            total_iva_exenta: 0,
-            total_iva_cinco: 0,
-            total_iva_diez: 0,
-            estado: "GENERADO",
-            facturado: 0,
-            tipo: "NORMAL",
-            pagado: "PENDIENTE",
-            motivo_cancelacion: "",
-            usuario_id: 1
-        });
+        const pedidoInsertado = await apiPedidos.insert(pedido);
 
-        const pedidosItems = await apiPedidosItems.insert([{
-            pedido_id: pedido.id,
-            producto_id: 1,
-            cantidad: 2,
-            precio: 100,
-            total: 200,
-            iva_cinco: 0,
-            iva_diez: 20,
-            iva_exenta: 0,
-            deposito_id: 1
-        }]);
+        const pedidoItemsInsertado = await apiPedidosItems.insert(pedidoItems)
+
+
     }
 
 
