@@ -204,7 +204,7 @@ export const components = (): Components<Omit<Theme, "components" | "palette"> &
     },
     styleOverrides: {
       paper: {
-        borderRadius: "12px"
+        borderRadius: "0"
       }
     }
   },

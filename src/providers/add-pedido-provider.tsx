@@ -1,11 +1,35 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
-interface IAddPedidoContext {}
+type ModalsState = {
+  receta: boolean;
+  cliente: boolean;
+  producto: boolean;
+};
+
+interface IAddPedidoContext {
+  modals: ModalsState;
+  handleOpenModal: (modalName: keyof ModalsState, value: boolean) => void;
+}
 
 const AddPedidoContext = createContext<IAddPedidoContext | undefined>(undefined);
 
 export const AddPedidoProvider = ({ children }: { children: ReactNode }) => {
-  const values = {};
+
+  const [modals, setModals] = useState({
+    receta: false,
+    cliente: false,
+    producto: false,
+  });
+
+  const handleOpenModal = (modalName: keyof ModalsState, value: boolean) => {
+    setModals((prev) => ({ ...prev, [modalName]: value }));
+  }
+
+  const values = {
+    modals,
+    setModals,
+    handleOpenModal,
+  };
 
   return <AddPedidoContext.Provider value={values}>{children}</AddPedidoContext.Provider>;
 };
