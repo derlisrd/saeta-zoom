@@ -14,7 +14,7 @@ export const APICALLER = {
       const res = await Axios({
         url,
         method: "DELETE",
-        headers: { "X-Api-Token": XAPITOKEN },
+        headers: { "X-Api-Token": XAPITOKEN, Accept: 'application/json', "Content-Type": 'application/json' },
       });
       return await res.data;
     } catch (error) {
@@ -75,7 +75,7 @@ export const APICALLER = {
         url: `${APIURL}Auth/Login`,
         method: "POST",
         data: JSON.stringify(datas),
-        headers: { "x-api-token": XAPITOKEN , 'Content-Type': 'application/json' },
+        headers: { "x-api-token": XAPITOKEN, Accept: "application/json", "Content-Type": "application/json" },
       });
       return await res.data;
     } catch (error) {
@@ -168,7 +168,7 @@ export const APICALLER = {
       let tk = DescifrarTexto(token);
       let URLFINAL = `${APIURL}${table}?where=${where}&sort=${sort}&page[number]=${pagenumber}&page[size]=${pagesize}&fields=${fields}&include=${include}&on=${on}&token=${tk}&filters[search]=${filtersSearch}&filters[field]=${filtersField}`;
       const res = await fetch(URLFINAL, {
-        headers: { "X-Api-Token": XAPITOKEN },
+        headers: { "X-Api-Token": XAPITOKEN, Accept: "application/json", "Content-Type": "application/json" },
       });
       return await res.json();
     } catch (error) {
