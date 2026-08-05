@@ -2,11 +2,11 @@ import Axios from "axios";
 import CryptoJS from 'crypto-js';
 import { APIURL, XAPITOKEN, SECRETO } from "../App/config";
 
-export const DescifrarTexto = t =>  CryptoJS.AES.decrypt(t, SECRETO).toString(CryptoJS.enc.Utf8);
+export const DescifrarTexto = t => CryptoJS.AES.decrypt(t, SECRETO).toString(CryptoJS.enc.Utf8);
 
 export const APICALLER = {
-  
-  
+
+
   deleteImage: async ({ table, path, idImage, token }) => {
     try {
       let tk = DescifrarTexto(token);
@@ -23,7 +23,7 @@ export const APICALLER = {
     }
   },
 
-  uploadJustOneImage : async({file,token})=>{
+  uploadJustOneImage: async ({ file, token }) => {
     let formData = new FormData();
     formData.append("image", file);
     try {
@@ -39,7 +39,7 @@ export const APICALLER = {
       });
       return await res.data;
     } catch (error) {
-      const err = { results: null, response: false, message: error,error:true };
+      const err = { results: null, response: false, message: error, error: true };
       return err;
     }
   },
@@ -64,7 +64,7 @@ export const APICALLER = {
       });
       return await res.data;
     } catch (error) {
-      const err = { results: null, response: false, message: error,error:true };
+      const err = { results: null, response: false, message: error, error: true };
       return err;
     }
   },
@@ -80,13 +80,13 @@ export const APICALLER = {
       return await res.data;
     } catch (error) {
       console.log(error);
-      const err = { results:null, response: `error`, message: error.message };
+      const err = { results: null, response: `error`, message: error.message };
       return err;
-    }    
-  }, 
+    }
+  },
 
 
-  ReValidateToken : async(token)=>{
+  ReValidateToken: async (token) => {
     try {
       let tk = DescifrarTexto(token);
       const res = await Axios({
@@ -112,7 +112,7 @@ export const APICALLER = {
       });
       return await res.data;
     } catch (error) {
-      const err = { results: null, response:  false, message: error };
+      const err = { results: null, response: false, message: error };
       return err;
     }
   },
@@ -127,7 +127,7 @@ export const APICALLER = {
       });
       return await res.data;
     } catch (error) {
-      const err = { results: null, response:  false, message: error };
+      const err = { results: null, response: false, message: error };
       return err;
     }
   },
@@ -142,7 +142,7 @@ export const APICALLER = {
       });
       return await res.data;
     } catch (error) {
-      const err = { results: null, response:  false, message: error };
+      const err = { results: null, response: false, message: error };
       return err;
     }
   },
@@ -158,25 +158,29 @@ export const APICALLER = {
       });
       return await res.data;
     } catch (error) {
-      const err = { results: null, response:  false, message: error };
+      const err = { results: null, response: false, message: error };
       return err;
     }
   },
 
-  get: async ({table,sort = "",pagenumber = "",pagesize = "",fields = "",where = "",include = "",on = "",token = "",filtersSearch = "",filtersField = ""}) => {
+  get: async ({ table, sort = "", pagenumber = "", pagesize = "", fields = "", where = "", include = "", on = "", token = "", filtersSearch = "", filtersField = "" }) => {
     try {
       let tk = DescifrarTexto(token);
-      let URLFINAL = `${APIURL}${table}?where=${where}&sort=${sort}&page[number]=${pagenumber}&page[size]=${pagesize}&fields=${fields}&include=${include}&on=${on}&token=${tk}&filters[search]=${filtersSearch}&filters[field]=${filtersField}`;
-      const res = await fetch(URLFINAL, {
-        headers: { "X-Api-Token": XAPITOKEN, Accept: "application/json", "Content-Type": "application/json" },
+      //let URLFINAL = `${APIURL}${table}?where=${where}&sort=${sort}&page[number]=${pagenumber}&page[size]=${pagesize}&fields=${fields}&include=${include}&on=${on}&token=${tk}&filters[search]=${filtersSearch}&filters[field]=${filtersField}`;
+      let URLFINAL = `${APIURL}${table}`;
+      const { data } = await Axios.get(URLFINAL, {
+        params: { where, sort, "page[number]": pagenumber, "page[size]": pagesize, fields, include, on, token: tk, "filters[search]": filtersSearch, "filters[field]": filtersField },
+        headers: { "X-Api-Token": XAPITOKEN, Accept: "application/json", "Content-Type": "application/json" }
       });
-      return await res.json();
+
+
+      return data;
     } catch (error) {
-      return { results: null, response:  false, message: error };
+      return { results: null, response: false, message: error };
     }
   },
 
-  insert: async ({ table, data, token, token_encriptado=true }) => {
+  insert: async ({ table, data, token, token_encriptado = true }) => {
     try {
       let tk = token_encriptado ? DescifrarTexto(token) : token;
       const res = await Axios({
@@ -187,12 +191,12 @@ export const APICALLER = {
       });
       return await res.data;
     } catch (error) {
-      const err = { results: null, response:  false, message: error };
+      const err = { results: null, response: false, message: error };
       return err;
     }
   },
 
-  update: async ({ table, data, id, token,operator,token_encriptado=true  }) => {
+  update: async ({ table, data, id, token, operator, token_encriptado = true }) => {
     try {
       let tk = token_encriptado ? DescifrarTexto(token) : token;
       const res = await Axios({
@@ -203,15 +207,15 @@ export const APICALLER = {
       });
       return await res.data;
     } catch (error) {
-      const err = { results: null, response:  false, message: error };
+      const err = { results: null, response: false, message: error };
       return err;
     }
   },
 
-  updateOrInsert: async ({ table, data, id=null, token })=>{
+  updateOrInsert: async ({ table, data, id = null, token }) => {
     try {
       let tk = DescifrarTexto(token);
-      let urlor = id ? `${APIURL}${table}/${id}/?token=${tk}` : `${APIURL}${table}/?token=${tk}` ;
+      let urlor = id ? `${APIURL}${table}/${id}/?token=${tk}` : `${APIURL}${table}/?token=${tk}`;
       const res = await Axios({
         url: urlor,
         method: "PATCH",
@@ -220,7 +224,7 @@ export const APICALLER = {
       });
       return await res.data;
     } catch (error) {
-      const err = { results: null, response:  false, message: error };
+      const err = { results: null, response: false, message: error };
       return err;
     }
   },
@@ -237,7 +241,7 @@ export const APICALLER = {
       });
       return await res.data;
     } catch (error) {
-      const err = { results: null, response:  false, message: error };
+      const err = { results: null, response: false, message: error };
       return err;
     }
   },
