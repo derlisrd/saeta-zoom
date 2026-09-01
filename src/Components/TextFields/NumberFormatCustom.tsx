@@ -1,35 +1,34 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { NumericFormat } from 'react-number-format';
 
-const NumberFormatCustom = React.forwardRef(function NumberFormatCustom(
-  props,
-  ref,
-) {
-  const { onChange, ...other } = props;
+interface NumberFormatCustomProps {
+  name: string;
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  [key: string]: any;
+}
 
-  return (
-    <NumericFormat
-      {...other}
-      getInputRef={ref}
-      onValueChange={(values) => {
-        onChange({
-          target: {
-            name: props.name,
-            value: values.value,
-          },
-        });
-      }}
-      thousandSeparator
-      valueIsNumericString
-      prefix=""
-    />
-  );
-});
+const NumberFormatCustom = React.forwardRef<unknown, NumberFormatCustomProps>(
+  function NumberFormatCustom(props, ref) {
+    const { onChange, ...other } = props;
 
-NumberFormatCustom.propTypes = {
-  name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
+    return (
+      <NumericFormat
+        {...other}
+        getInputRef={ref}
+        onValueChange={(values) => {
+          onChange({
+            target: {
+              name: props.name,
+              value: values.value,
+            },
+          });
+        }}
+        thousandSeparator
+        valueIsNumericString
+        prefix=""
+      />
+    );
+  }
+);
 
 export default NumberFormatCustom;
