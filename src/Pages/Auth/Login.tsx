@@ -60,10 +60,11 @@ function Login() {
               <TextField
                 required
                 disabled={load.login}
-                name="username_user"
+                name="email_user"
                 inputRef={userRef}
                 autoFocus
-                label="Usuario"
+                label="Email"
+                type="email"
                 fullWidth
                 InputProps={{  startAdornment: (
                   <InputAdornment position="start">

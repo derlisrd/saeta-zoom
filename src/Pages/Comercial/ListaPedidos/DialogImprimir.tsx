@@ -46,12 +46,12 @@ function DialogImprimir() {
         APICALLER.get({ table: "recetas", where: `pedido_id_receta,=,${formSelect.id_pedido}` }),
       ]);
       if (fact.response) {
-        const arm = env.ARMAZONES.find((e) => Number(e.id_armazon) === fact.first.armazon_id);
+        const arm = env.ARMAZONES.find((e) => Number(e.id_armazon) === Number(fact.first.armazon_id));
 
         setFactura({
-          items: items.results,
-          datos: fact.first,
-          receta: receta.first,
+          items: items.results || [],
+          datos: fact.first || {},
+          receta: receta.response ? receta.first || {} : {},
           armazon: arm ? arm.nombre_armazon : "ninguno",
         });
       } else {

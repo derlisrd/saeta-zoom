@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { APICALLER } from '../Services/api';
 import { supabase } from '../Services/supabase';
 import { env } from '../App/config';
@@ -60,8 +60,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const signingOut = useRef(false);
+
   const logOut = useCallback(async () => {
-    await supabase.auth.signOut();
+    if (signingOut.current) return;
+    signingOut.current = true;
+
     setUserData({
       login: false,
       token_user: null,
@@ -76,51 +80,65 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem('userData');
     sessionStorage.removeItem('userData');
     localStorage.clear();
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {
+      // ignorar error si no hay sesión activa
+    } finally {
+      signingOut.current = false;
+    }
   }, []);
 
-  const logIn = async (f: { username_user: string; password_user: string }, remember: boolean) => {
+  const logIn = async (f: { email_user: string; password_user: string }, remember: boolean) => {
     setLoad({ login: true, active: false, msj: null, code: 0 });
 
-    const [res, emp] = await Promise.all([
-      APICALLER.login(f),
+    const res = await APICALLER.login(f);
+
+    if (!res.response || res.found <= 0) {
+      setLoad({ login: false, active: true, msj: res.message, code: res.error_code || 0 });
+      return false;
+    }
+
+    const d = res.results[0];
+
+    const [emp, permisosData] = await Promise.all([
       APICALLER.get({
         table: 'empresas',
         fields: 'categoria_empresa,nombre_empresa,propietario_empresa,ruc_empresa,direccion_empresa,mensaje_recibo_empresa,licencia',
       }),
+      APICALLER.get({
+        table: 'permisos_users',
+        where: `id_user_permiso,=,${d.id_user}`,
+        fields: 'id_permiso_permiso',
+      }),
     ]);
 
-    if (res.response && res.found > 0) {
-      const dataEmpresa = emp.results[0];
+    const dataEmpresa = emp.results?.[0];
+
+    if (dataEmpresa && dataEmpresa.licencia) {
       const today = new Date();
       const fechaLicencia = funciones.splitFecha(dataEmpresa.licencia);
-
       if (today >= fechaLicencia) {
         setLoad({ login: false, active: true, msj: 'Su licencia ha vencido. Por favor contacte con el proveedor.' });
         return false;
       }
-
-      setearEmpresa({ mode: true, empresa: dataEmpresa });
-
-      const d = res.results[0];
-      const permisosData = await APICALLER.get({
-        table: 'permisos_users',
-        where: `id_user_permiso,=,${d.id_user}`,
-        fields: 'id_permiso_permiso',
-      });
-
-      const datas = {
-        ...d,
-        login: true,
-        token_user: d.token_user,
-        username_user: d.username_user,
-        permisos: permisosData.response ? permisosData.results : [],
-      };
-
-      setearLogin(datas, remember);
-      setLoad({ login: false, active: false, msj: null });
-    } else {
-      setLoad({ login: false, active: true, msj: res.message, code: res.error_code || 0 });
     }
+
+    if (dataEmpresa) {
+      setearEmpresa({ mode: true, empresa: dataEmpresa });
+    }
+
+    const datas = {
+      ...d,
+      login: true,
+      token_user: d.token_user,
+      username_user: d.username_user,
+      permisos: permisosData.response ? permisosData.results : [],
+    };
+
+    setearLogin(datas, remember);
+    setLoad({ login: false, active: false, msj: null });
+    return true;
   };
 
   const authcheck = useCallback(async () => {

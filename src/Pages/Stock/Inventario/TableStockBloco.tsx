@@ -9,7 +9,8 @@ function TableStockBloco() {
     const {stock,rangos,setFormSelect,setStock} = useInventario()
     const [formStock,setFormStock] = useState([])
     const tableRef = useRef(null); 
-    const widthTh = 100/(rangos.bases.length + 2);
+    const bases = rangos.bases || [];
+    const widthTh = 100/(bases.length + 2);
     const onDownload = ()=>{}
     //console.log(stock);
     const corregir = (adicion,base,lado,stockActual,id,deposito_id)=>{
@@ -45,7 +46,7 @@ function TableStockBloco() {
         <tr className={style.head}>
           <th>ADICION</th>
           {
-            rangos.bases.map((e,i)=>(
+            bases.map((e,i)=>(
               <th width={ `${widthTh}%`} key={i}>{e.base} {e.string}</th>
             ))
           }

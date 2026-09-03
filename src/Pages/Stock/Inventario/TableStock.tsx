@@ -12,7 +12,8 @@ function TableStock() {
   const {stock,rangos,setFormSelect,setStock} = useInventario()
   const tableRef = useRef(null); 
   const [formStock,setFormStock] = useState([])
-  const widthTh = 100/(rangos.cilindrico.length + 2);
+  const cilindrico = rangos.cilindrico || [];
+  const widthTh = 100/(cilindrico.length + 2);
   
   const { onDownload } = useDownloadExcel({
     currentTableRef: tableRef.current,
@@ -65,7 +66,7 @@ function TableStock() {
         <tr className={style.head}>
           <th>Esferico</th>
           {
-            rangos.cilindrico.map((e,i)=>(
+            cilindrico.map((e,i)=>(
               <th width={ `${widthTh}%`} key={i}>{funciones.addZeros(e)}</th>
             ))
           }

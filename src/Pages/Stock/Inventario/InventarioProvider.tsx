@@ -15,7 +15,7 @@ function InventarioProvider({children}) {
     const [loadingLista,setLoadingLista] = useState(true)
     const [stock,setStock] = useState([])
     const [rangos,setRangos] = useState({
-        esferico:[],cilindrico:[]
+        esferico:[],cilindrico:[],adicion:[],bases:[]
     })
     const [dialogs,setDialogs] = useState({corregir:false})
     const [formSelect,setFormSelect] = useState({})

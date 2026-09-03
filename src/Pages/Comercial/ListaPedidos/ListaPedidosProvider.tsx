@@ -22,47 +22,9 @@ function ListaPedidosProvider({children}) {
         entrada:0
     })
 
-    const getFiltrar = useCallback(async(cliente,desde,hasta)=>{
-        
-        if(cliente){
-            let whereFilter;
-            if(desde && hasta) {
-                whereFilter = `fecha_pedido,between,'${desde} 00:00:00',and,'${hasta} 23:59:59',and,id_cliente,=,${cliente}`
-            }else{
-                whereFilter = `id_cliente,=,${cliente}`
-            }
-            setLoading(true)
-            let [res] = await Promise.all([APICALLER.get({table:'pedidos',include:'clientes,users',
-                on:'cliente_id_pedido,id_cliente,id_user,user_id_pedido',
-                fields:'estado_pago,factura_id,codigo_cliente_pedido,facturado_pedido,motivo_cancela,estado_pago,total_pedido,tipo_pedido,total_pedido,nombre_user,fecha_pedido,id_pedido,nombre_cliente,estado_pedido,codigo_cliente_pedido',
-                where:whereFilter,
-                sort:'id_pedido'
-                }),
-                ])
-                if(res.response){
-                    let tipoPedido = {
-                        "1": "NORMAL PREESCRIPCION",
-                        "2": "CORTESIA",
-                        "3": "GARANTIA",
-                        "4": "NORMAL SOLO CRISTAL"
-                    }
-                    let pedidos = []
-                    res.results.forEach(elem=>{
-                        pedidos.push({...elem,total_pedido: parseFloat(elem.total_pedido), 
-                            facturado: elem.facturado_pedido==='0'? 'No' : 'Si',
-                            tipo: tipoPedido[elem.tipo_pedido],
-                            pago: elem.estado_pago==='0'? 'PENDIENTE':'PAGADO'
-                        })
-                    })
-            setListas({pedidos,total:res.found,entrada:0 })
-        }else{
-            console.log(res);
-        } 
-            
-            
-        }
-        setLoading(false)
-    },[]);
+
+
+
 
 
 
@@ -107,6 +69,54 @@ function ListaPedidosProvider({children}) {
 
         setLoading(false)
     },[fechas,today])
+
+    const getFiltrar = useCallback(async(cliente,desde,hasta)=>{
+        let conds = [];
+
+        if(desde && hasta) {
+            conds.push(`fecha_pedido,between,'${desde} 00:00:00',and,'${hasta} 23:59:59'`);
+        }
+        if(cliente) {
+            conds.push(`cliente_id_pedido,=,${cliente}`);
+        }
+
+        if(conds.length === 0) {
+            getLista('');
+            return;
+        }
+
+        let whereFilter = conds.join(',and,');
+
+        setLoading(true)
+        let [res] = await Promise.all([APICALLER.get({table:'pedidos',include:'clientes,users',
+            on:'cliente_id_pedido,id_cliente,id_user,user_id_pedido',
+            fields:'estado_pago,factura_id,codigo_cliente_pedido,facturado_pedido,motivo_cancela,estado_pago,total_pedido,tipo_pedido,total_pedido,nombre_user,fecha_pedido,id_pedido,nombre_cliente,estado_pedido,codigo_cliente_pedido',
+            where:whereFilter,
+            sort:'id_pedido'
+            }),
+            ])
+            if(res.response){
+                let tipoPedido = {
+                    "1": "NORMAL PREESCRIPCION",
+                    "2": "CORTESIA",
+                    "3": "GARANTIA",
+                    "4": "NORMAL SOLO CRISTAL"
+                }
+                let pedidos = []
+                res.results.forEach(elem=>{
+                    pedidos.push({...elem,total_pedido: parseFloat(elem.total_pedido), 
+                        facturado: elem.facturado_pedido==='0'? 'No' : 'Si',
+                        tipo: tipoPedido[elem.tipo_pedido],
+                        pago: elem.estado_pago==='0'? 'PENDIENTE':'PAGADO'
+                    })
+                })
+        setListas({pedidos,total:res.found,entrada:0 })
+    }else{
+        console.log(res);
+    } 
+        
+        setLoading(false)
+    },[getLista]);
 
     
     
